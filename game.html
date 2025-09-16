@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Let's play a game</h1>
-    <button onclick="create()">Find out how much RAM I have (Open one)</button>
+    <button onclick="start()">Find out how much RAM I have</button>
 
     <script>
 
@@ -21,8 +21,12 @@
                 break;
         }
 
+        function start() {
+            setInterval(create(), 2000);
+        }
+
         async function create() {
-            const win = window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank", "width=300,height=200");
+            const win = window.open("about:blank", "_blank", "width=300,height=200");
             const offset = Math.random() * 1000 - 500;
             let speed = Math.random() * 10 - 5;
             if(speed > -1 && speed < 1) speed = 1;
@@ -57,3 +61,4 @@
 </body>
 
 </html>
+
