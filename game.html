@@ -7,27 +7,53 @@
 </head>
 <body>
     <h1>Let's play a game</h1>
-    <button onclick="start()">Find out how much RAM I have</button>
+    <button onclick="create()">Find out how much RAM I have (Open one)</button>
 
     <script>
 
-while(true) {
-        const popup = window.open("javascript:window.close()", "_blank");
-
-        if (!popup || popup.closed || typeof popup.closed === "undefined") {
-            // Popup was blocked
-            alert("Please allow popups for this site to continue.");
-            continue;
+        while(true) {
+                const popup = window.open("javascript:window.close()", "_blank");
+        
+                if (!popup || popup.closed || typeof popup.closed === "undefined") {
+                    alert("Please allow popups for this site to continue.");
+                    continue;
+                }
+                break;
         }
-        break;
-}
 
-        function start() {
-            setInterval(() => {
-                window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-            }, 10);
+        async function create() {
+            const win = window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank", "width=300,height=200");
+            const offset = Math.random() * 1000 - 500;
+            let speed = Math.random() * 10 - 5;
+            if(speed > -1 && speed < 1) speed = 1;
+            
+            if (win) {
+              const start = Date.now() - offset;
+              const screenW = screen.availWidth - 300; // minus window width
+              const screenH = screen.availHeight - 200; // minus window height
+            
+              function animate(wi, st, ww, wh, s) {
+                let t = (Date.now() - st) / 1000 * s; // seconds
+                
+                // oscillate x and y using |sin(t)|
+                const x = Math.abs(Math.cos(t)) * ww;
+                const y = Math.abs(Math.sin(t * 0.7)) * wh; // different speed for fun
+                
+                try {
+                  wi.moveTo(x, y);
+                } catch (e) {
+                  // Some browsers block moveTo after user interaction
+                }
+            
+                requestAnimationFrame(() => animate(wi, st, ww, wh, s));
+              }
+            
+              animate(win, start, screenW, screenH, speed);
+            }
         }
+
     </script>
 
 </body>
+
 </html>
