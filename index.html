@@ -384,17 +384,17 @@
     // Check saved preference
     if (localStorage.getItem('theme') === 'dark') {
       html.setAttribute('data-theme', 'dark');
-      themeToggle.textContent = '☀️ Light Mode';
+      themeToggle.textContent = 'Light Mode';
     }
 
     themeToggle.addEventListener('click', () => {
       if (html.getAttribute('data-theme') === 'dark') {
         html.removeAttribute('data-theme');
-        themeToggle.textContent = '🌙 Dark Mode';
+        themeToggle.textContent = 'Dark Mode';
         localStorage.setItem('theme', 'light');
       } else {
         html.setAttribute('data-theme', 'dark');
-        themeToggle.textContent = '☀️ Light Mode';
+        themeToggle.textContent = 'Light Mode';
         localStorage.setItem('theme', 'dark');
       }
     });
