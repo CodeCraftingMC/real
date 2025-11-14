@@ -1,44 +1,267 @@
 <!doctype html>
 <html lang="de">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Glas-Flex — So flexibel wie noch nie</title>
   <meta name="description" content="Glas-Flex — flexibel denken, glasfroh handeln. Rein fiktive Seite.">
   <style>
-    :root{--bg:#f7fbff;--card:#ffffff;--muted:#6b7280;--accent:#0f7cff;--glass:rgba(255,255,255,0.6)}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#0f1724;background:linear-gradient(180deg,#f7fbff 0%, #eef6ff 100%);} 
-    header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px}
-    .logo{display:flex;align-items:center;gap:12px}
-    .logo-mark{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#49b2ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:0 6px 18px rgba(15,124,255,0.18)}
-    .nav{display:flex;gap:16px;align-items:center}
-    .btn{padding:8px 14px;border-radius:8px;background:var(--accent);color:white;text-decoration:none;font-weight:600}
+    :root {
+      --bg: #f7fbff;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #0f7cff;
+      --glass: rgba(255, 255, 255, 0.6)
+    }
 
-    .container{max-width:1100px;margin:28px auto;padding:0 20px}
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
-    .panel{background:var(--card);border-radius:14px;padding:28px;box-shadow:0 8px 30px rgba(15,20,30,0.06)}
-    h1{margin:0 0 10px;font-size:28px}
-    p.lead{margin:0 0 18px;color:var(--muted)}
+    * {
+      box-sizing: border-box
+    }
 
-    .features{display:flex;flex-direction:column;gap:12px}
-    .feature{display:flex;gap:12px;align-items:flex-start}
-    .feature .dot{width:44px;height:44px;border-radius:10px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);box-shadow:0 6px 14px rgba(79,153,255,0.08)}
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color: var(--text);
+      /* <-- changed from #0f1724 */
+      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    }
 
-    .side-card{position:relative}
-    .compliance{margin-top:10px;padding:14px;border-radius:10px;background:linear-gradient(180deg,#fbfeff,#f7fbff);font-size:14px}
-    .small{font-size:13px;color:var(--muted)}
 
-    form label{display:block;margin:10px 0 6px;font-weight:600}
-    input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eefb;background:transparent}
-    textarea{min-height:90px}
-    .ghost{background:transparent;border:1px solid #d6e9ff;color:var(--accent);padding:8px 12px;border-radius:8px}
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px
+    }
 
-    footer{margin:40px auto 60px;text-align:center;color:var(--muted);font-size:13px}
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
 
-    @media (max-width:900px){.hero{grid-template-columns:1fr;}.logo-mark{width:40px;height:40px}}
+    .logo-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #49b2ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(15, 124, 255, 0.18)
+    }
+
+    .nav {
+      display: flex;
+      gap: 16px;
+      align-items: center
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      font-weight: 600
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 20px
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 28px;
+      align-items: center
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 8px 30px rgba(15, 20, 30, 0.06)
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px
+    }
+
+    p.lead {
+      margin: 0 0 18px;
+      color: var(--muted)
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .feature {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start
+    }
+
+    .feature .dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--glass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--accent);
+      box-shadow: 0 6px 14px rgba(79, 153, 255, 0.08)
+    }
+
+    .side-card {
+      position: relative
+    }
+
+    .compliance {
+      margin-top: 10px;
+      padding: 14px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #fbfeff, #f7fbff);
+      font-size: 14px
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    form label {
+      display: block;
+      margin: 10px 0 6px;
+      font-weight: 600
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #e6eefb;
+      background: transparent
+    }
+
+    textarea {
+      min-height: 90px
+    }
+
+    .ghost {
+      background: transparent;
+      border: 1px solid #d6e9ff;
+      color: var(--accent);
+      padding: 8px 12px;
+      border-radius: 8px
+    }
+
+    footer {
+      margin: 40px auto 60px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    @media (max-width:900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .logo-mark {
+        width: 40px;
+        height: 40px
+      }
+    }
+
+    /* DARK MODE ADDITION (TEST) */
+
+    /* Dark mode variables */
+    [data-theme="dark"] {
+      --bg: #0f1724;
+      --card: #1e293b;
+      --muted: #94a3b8;
+      --accent: #0f7cff;
+      --glass: rgba(255, 255, 255, 0.1);
+    }
+
+    body[data-theme="dark"] {
+      background: linear-gradient(180deg, #0f1724 0%, #1e293b 100%);
+      color: #e2e8f0;
+    }
+
+    [data-theme="dark"] .panel {
+      background: var(--card);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="dark"] .compliance {
+      background: linear-gradient(180deg, #1e293b, #0f1724);
+    }
+
+    [data-theme="dark"] input,
+    [data-theme="dark"] textarea {
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+
+    [data-theme="dark"] .ghost {
+      border-color: #0f7cff;
+      color: #0f7cff;
+    }
+
+    :root {
+      --bg-start: #f7fbff;
+      --bg-end: #eef6ff;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #0f7cff;
+      --glass: rgba(255, 255, 255, 0.6);
+    }
+
+    [data-theme="dark"] {
+      --bg-start: #0f1724;
+      --bg-end: #1e293b;
+      --card: #1e293b;
+      --muted: #94a3b8;
+      --glass: rgba(255, 255, 255, 0.1);
+    }
+
+    :root {
+      --bg-start: #f7fbff;
+      --bg-end: #eef6ff;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #0f7cff;
+      --glass: rgba(255, 255, 255, 0.6);
+      --text: #0f1724;
+      /* default dark text */
+    }
+
+    [data-theme="dark"] {
+      --bg-start: #0f1724;
+      --bg-end: #1e293b;
+      --card: #1e293b;
+      --muted: #94a3b8;
+      --glass: rgba(255, 255, 255, 0.1);
+      --text: #ffffff;
+      /* light text for dark mode */
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div class="logo">
@@ -55,6 +278,8 @@
       <a class="btn" href="/game.html">Spiel</a>
       <a class="btn" href="https://android.glas-flex.ch" target="_blank">About Android</a>
       <a class="btn" href="https://calcflex.glas-flex.ch" target="_blank">Calcflex Calculator</a>
+      <button id="theme-toggle" class="btn">Dark Mode</button>
+
     </nav>
   </header>
 
@@ -63,12 +288,28 @@
       <div>
         <div class="panel">
           <h1>Glas, wie es sein sollte — flexibel genug für Morgen</h1>
-          <p class="lead">Glas-Flex ist ein rein fiktives Projekt: Wir glauben daran, dass Glas manchmal mehr sein kann als starr — zumindest in Gedankenexperimenten.</p>
+          <p class="lead">Glas-Flex ist ein rein fiktives Projekt: Wir glauben daran, dass Glas manchmal mehr sein kann
+            als starr — zumindest in Gedankenexperimenten.</p>
 
           <div class="features">
-            <div class="feature"><div class="dot">F</div><div><strong>Flexible Beratung</strong><div class="small">Kurz &amp; knapp: wir reden übers Biegen von Ideen, nicht von Gläsern.</div></div></div>
-            <div class="feature"><div class="dot">A</div><div><strong>Absurde Compliance</strong><div class="small">Hinweise zu nicht-existierenden Regeln, mit warmem Augenzwinkern.</div></div></div>
-            <div class="feature"><div class="dot">S</div><div><strong>Sanfte Sanktionen</strong><div class="small">Leichte Maßnahmen: z. B. Teilnahme an einem Glas-Atmungs-Webinar (90 Minuten).</div></div></div>
+            <div class="feature">
+              <div class="dot">F</div>
+              <div><strong>Flexible Beratung</strong>
+                <div class="small">Kurz &amp; knapp: wir reden übers Biegen von Ideen, nicht von Gläsern.</div>
+              </div>
+            </div>
+            <div class="feature">
+              <div class="dot">A</div>
+              <div><strong>Absurde Compliance</strong>
+                <div class="small">Hinweise zu nicht-existierenden Regeln, mit warmem Augenzwinkern.</div>
+              </div>
+            </div>
+            <div class="feature">
+              <div class="dot">S</div>
+              <div><strong>Sanfte Sanktionen</strong>
+                <div class="small">Leichte Maßnahmen: z. B. Teilnahme an einem Glas-Atmungs-Webinar (90 Minuten).</div>
+              </div>
+            </div>
           </div>
 
           <div style="margin-top:18px;display:flex;gap:10px;align-items:center">
@@ -76,15 +317,18 @@
           </div>
         </div>
 
-        <div class="small" style="margin-top:10px;color:var(--muted)">Hinweis: Diese Seite ist satirisch/spielerisch. Keine echte Rechtsberatung. Kein Glas wurde bei der Erstellung gebogen.</div>
+        <div class="small" style="margin-top:10px;color:var(--muted)">Hinweis: Diese Seite ist satirisch/spielerisch.
+          Keine echte Rechtsberatung. Kein Glas wurde bei der Erstellung gebogen.</div>
       </div>
 
       <aside class="side-card">
         <div class="panel">
           <h3 style="margin:0 0 8px">Compliance-Alarm</h3>
           <div class="compliance">
-            Uns wurde berichtet, dass irgendwo möglicherweise <em>rechteckige Fenster</em> benutzt werden. Das ist nicht per se verboten, aber aus Gründen der Symmetrie bevorzugen wir gelegentlich runde Ecken.
-            <div style="margin-top:8px" class="small">Wenn Sie dies bestätigen möchten, schicken Sie uns bitte ein Bild — oder eine handgezeichnete Skizze. Beides ist akzeptabel.</div>
+            Uns wurde berichtet, dass irgendwo möglicherweise <em>rechteckige Fenster</em> benutzt werden. Das ist nicht
+            per se verboten, aber aus Gründen der Symmetrie bevorzugen wir gelegentlich runde Ecken.
+            <div style="margin-top:8px" class="small">Wenn Sie dies bestätigen möchten, schicken Sie uns bitte ein Bild
+              — oder eine handgezeichnete Skizze. Beides ist akzeptabel.</div>
           </div>
 
           <hr style="margin:14px 0;border:none;border-top:1px solid #eef6ff">
@@ -121,7 +365,7 @@
       e.preventDefault();
       const name = form.name.value.trim();
       const email = form.email.value.trim();
-      if(!name || !email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+      if (!name || !email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
         result.textContent = 'Bitte gültigen Namen und E-Mail angeben.';
         return;
       }
@@ -129,7 +373,36 @@
       form.reset();
     });
 
-    clear.addEventListener('click', ()=>{ form.reset(); result.textContent='Eingaben gelöscht.'});
+    clear.addEventListener('click', () => { form.reset(); result.textContent = 'Eingaben gelöscht.' });
+
+
+    /* DARK MODE TEST */
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    // Check saved preference
+    if (localStorage.getItem('theme') === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = 'Light Mode';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      if (html.getAttribute('data-theme') === 'dark') {
+        html.removeAttribute('data-theme');
+        themeToggle.textContent = 'Dark Mode';
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        themeToggle.textContent = 'Light Mode';
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    html.setAttribute('data-theme', 'dark'); // dark
+    html.removeAttribute('data-theme');      // light
+
   </script>
 </body>
+
 </html>
