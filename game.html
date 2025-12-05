@@ -1,65 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameFlex</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Let's play a game</h1>
-    <button onclick="start()">Find out how much RAM I have</button>
+  <h1>Let's play a game</h1>
+  <button onclick="start()">Find out how much RAM I have</button>
 
-    <script>
+  <script>
 
-        while(true) {
-                const popup = window.open("javascript:window.close()", "_blank");
-        
-                if (!popup || popup.closed || typeof popup.closed === "undefined") {
-                    alert("Please allow popups for this site to continue.");
-                    continue;
-                }
-                break;
+    while (true) {
+      const popup = window.open("javascript:window.close()", "_blank");
+
+      if (!popup || popup.closed || typeof popup.closed === "undefined") {
+        alert("Please allow popups for this site to continue.");
+        continue;
+      }
+      break;
+    }
+
+    function start() {
+      setInterval(() => create(), 2000);
+    }
+
+    async function create() {
+      const win = window.open("about:blank", "_blank", "width=300,height=200");
+      const offset = Math.random() * 1000 - 500;
+      let speed = Math.random() * 10 - 5;
+      if (speed > -1 && speed < 1) speed = 1;
+
+      if (win) {
+        const start = Date.now() - offset;
+        const screenW = screen.availWidth - 300; // minus window width
+        const screenH = screen.availHeight - 200; // minus window height
+
+        function animate(wi, st, ww, wh, s) {
+          let t = (Date.now() - st) / 1000 * s; // seconds
+
+          // oscillate x and y using |sin(t)|
+          const x = Math.abs(Math.cos(t)) * ww;
+          const y = Math.abs(Math.sin(t * 0.7)) * wh; // different speed for fun
+
+          try {
+            wi.moveTo(x, y);
+          } catch (e) {
+            // Some browsers block moveTo after user interaction
+          }
+
+          requestAnimationFrame(() => animate(wi, st, ww, wh, s));
         }
 
-        function start() {
-            setInterval(() => create(), 2000);
-        }
+        animate(win, start, screenW, screenH, speed);
+      }
+    }
 
-        async function create() {
-            const win = window.open("about:blank", "_blank", "width=300,height=200");
-            const offset = Math.random() * 1000 - 500;
-            let speed = Math.random() * 10 - 5;
-            if(speed > -1 && speed < 1) speed = 1;
-            
-            if (win) {
-              const start = Date.now() - offset;
-              const screenW = screen.availWidth - 300; // minus window width
-              const screenH = screen.availHeight - 200; // minus window height
-            
-              function animate(wi, st, ww, wh, s) {
-                let t = (Date.now() - st) / 1000 * s; // seconds
-                
-                // oscillate x and y using |sin(t)|
-                const x = Math.abs(Math.cos(t)) * ww;
-                const y = Math.abs(Math.sin(t * 0.7)) * wh; // different speed for fun
-                
-                try {
-                  wi.moveTo(x, y);
-                } catch (e) {
-                  // Some browsers block moveTo after user interaction
-                }
-            
-                requestAnimationFrame(() => animate(wi, st, ww, wh, s));
-              }
-            
-              animate(win, start, screenW, screenH, speed);
-            }
-        }
-
-    </script>
+  </script>
 
 </body>
 
 </html>
-
-
