@@ -1,7 +1,7 @@
 ### Version
 
 #### Current Version
-V 0.1.3 (Release: 2026/01/09 2:40 PM GMT+1)
+V 0.1.4 (Release: 2026/02/02 5:20 PM GMT+1)
 
 ### Changelogs
 
@@ -18,3 +18,7 @@ V 0.1.3 (Release: 2026/01/09 2:40 PM GMT+1)
 
 #### V 0.1.3 (Release: 2026/01/09 2:40 PM GMT+1)
 - background fix
+
+#### V 0.1.4 (Release: 2026/02/02 5:20 PM GMT+1)
+- add favicon
+- add logo
