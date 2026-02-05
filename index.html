@@ -28,15 +28,17 @@
 
 
     body {
+      display: flex;
+      flex-direction: column;
       margin: 0;
       font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
       color: var(--text);
       background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
-
-
       padding-top: var(--nav-height);
+    }
 
-
+    main {
+      flex: 1;
     }
 
     .padding {
@@ -76,7 +78,9 @@
       /* optional but recommended */
     }
 
-
+    .footerdiv {
+      margin-bottom: 1vh;
+    }
 
     .nav {
       display: flex;
@@ -90,12 +94,6 @@
       left: 0;
       right: 0;
       z-index: 1000;
-    }
-
-    .footerdiv {
-      position: fixed;
-      top: auto;
-
     }
 
     .btn {
