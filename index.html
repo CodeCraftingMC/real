@@ -32,6 +32,11 @@
       font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
       color: var(--text);
       background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+
+
+      padding-top: var(--nav-height);
+
+
     }
 
     .padding {
@@ -76,7 +81,21 @@
     .nav {
       display: flex;
       gap: 16px;
-      align-items: center
+      align-items: center;
+    }
+
+    .navdiv {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    .footerdiv {
+      position: fixed;
+      top: auto;
+
     }
 
     .btn {
@@ -281,7 +300,7 @@
 </head>
 
 <body class="bodyflex">
-  <header>
+  <header class="navdiv">
     <div class="logo">
       <div class="logo-mark"><img src="GlasFlex.png" alt="Logo"></div>
       <div>
@@ -289,6 +308,7 @@
         <div style="font-size:12px;color:var(--muted)">flexible. transparent. sometimes sensible.</div>
       </div>
     </div>
+
     <nav class="nav">
       <a class="small" href="#about">About GlasFlex</a>
       <a class="small" href="#services">Services</a>
@@ -297,8 +317,9 @@
       <a class="button-alt" href="https://android.glas-flex.ch" target="_blank">About Android</a>
       <a class="button-alt" href="https://calcflex.glas-flex.ch" target="_blank">Calcflex Calculator</a>
       <a id="theme-toggle" href="#" class="btn">Dark Mode</a>
-
     </nav>
+
+
   </header>
 
   <main class="container">
@@ -353,8 +374,10 @@
         <div class="panel liquid-glas-flex">
           <h3 style="margin:0 0 8px">Compliance-Alarm</h3>
           <div class="liquid-glas-flex padding">
-            <div class="liquid-glas-flex padding">We were notified, that possibly someone is using <br><em>light mode</em>. While it isn't per se forbidden,
-            <span style="font-weight: bold; color: white;">we have eyes</span> so we prefer using dark mode.</div>
+            <div class="liquid-glas-flex padding">We were notified, that possibly someone is using <br><em>light
+                mode</em>. While it isn't per se forbidden,
+              <span style="font-weight: bold; color: white;">we have eyes</span> so we prefer using dark mode.
+            </div>
             <div style="margin-top:8px" class="small">If you have seen a light mode incident, we kindly ask you to
               report it to us using this form. You can write a text, but you can also add a video link or make a
               handdrawn sketch. Everything is acceptable.</div>
@@ -370,7 +393,8 @@
             <label for="email">E-Mail</label>
             <input id="email" name="email" placeholder="you@example.ch" type="email" required class="liquid-glas-flex">
             <label for="msg">Short Explanation</label>
-            <textarea id="msg" name="msg" placeholder="When, where, what. Explain the incident." class="liquid-glas-flex"></textarea>
+            <textarea id="msg" name="msg" placeholder="When, where, what. Explain the incident."
+              class="liquid-glas-flex"></textarea>
             <div style="display:flex;gap:8px;margin-top:10px">
               <button type="submit" class="button-alt">Send</button>
               <button type="button" class="ghost" id="clear">Clear</button>
@@ -384,7 +408,7 @@
   </main>
 
   <footer>
-    <div>© Glas-Flex.ch 2025-2026</div>
+    <div class="footerdiv">© glas-glex.ch 2025-2026</div>
   </footer>
 
   <script>
@@ -429,6 +453,11 @@
       }
     });
 
+    const navoffset = document.querySelector('.navdiv');
+    document.documentElement.style.setProperty(
+      '--nav-height',
+      navoffset.offsetHeight + 'px'
+    );
   </script>
 </body>
 
