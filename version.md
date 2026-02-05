@@ -1,7 +1,7 @@
-### Version
+## Version
 
-#### Current Version
-V 0.1.4 (Release: 2026/02/03 8:00 AM GMT+1)
+### Current Version
+V 0.2.0 (Release: 2026/02/05 9:00 AM GMT+1)
 
 ### Changelogs
 
@@ -22,3 +22,9 @@ V 0.1.4 (Release: 2026/02/03 8:00 AM GMT+1)
 #### V 0.1.4 (Release: 2026/02/03 8:00 AM GMT+1)
 - add favicon
 - add logo
+
+#### V 0.2.0 (Release: 2026/02/05 9:00 AM GMT+1)
+- added Liquid-Glas-Flex framework
+    - reworked buttons
+    - reworked backgrounds
+    - reworked form
