@@ -5,290 +5,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Glas-Flex — More flexible than ever before.</title>
-  <link rel="icon" type="image/x-icon" href="GlasFlex.png">
+  <link rel="icon" type="image/x-icon" href="images/ GlasFlex.png">
   <link rel="stylesheet" href="https://liquid.glas-flex.ch/liquid-glas-flex.css">
+  <link rel="stylesheet" href="/index/style.css">
   <meta name="description" content="Glas-Flex — flexible thinking, glas-clear coding.">
-  <style>
-    :root {
-      --bg: #f7fbff;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --accent: #0f7cff;
-      --glass: rgba(255, 255, 255, 0.6)
-    }
 
-    * {
-      box-sizing: border-box
-    }
-
-    html,
-    body {
-      height: 100%;
-    }
-
-
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
-    }
-
-    .padding {
-      padding: 1vh;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 28px
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px
-    }
-
-    .logo-mark {
-      width: 46px;
-      height: 46px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--accent), #49b2ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 18px rgba(15, 124, 255, 0.18);
-      overflow: hidden;
-    }
-
-    .logo-mark img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      padding: 6px;
-      /* optional but recommended */
-    }
-
-
-
-    .nav {
-      display: flex;
-      gap: 16px;
-      align-items: center
-    }
-
-    .btn {
-      padding: 8px 14px;
-      border-radius: 8px;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
-      font-weight: 600
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 28px auto;
-      padding: 0 20px
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 28px;
-      align-items: center
-    }
-
-    .panel {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 28px;
-      box-shadow: 0 8px 30px rgba(15, 20, 30, 0.06)
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: 28px
-    }
-
-    p.lead {
-      margin: 0 0 18px;
-      color: var(--muted)
-    }
-
-    .features {
-      display: flex;
-      flex-direction: column;
-      gap: 12px
-    }
-
-    .feature {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start
-    }
-
-    .feature .dot {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: var(--glass);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: var(--accent);
-      box-shadow: 0 6px 14px rgba(79, 153, 255, 0.08)
-    }
-
-    .side-card {
-      position: relative
-    }
-
-    .compliance {
-      margin-top: 10px;
-      padding: 14px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, #fbfeff, #f7fbff);
-      font-size: 14px
-    }
-
-    .font14 {
-      font-size: 14px
-    }
-
-    .small {
-      font-size: 13px;
-      color: var(--muted)
-    }
-
-    form label {
-      display: block;
-      margin: 10px 0 6px;
-      font-weight: 600
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #e6eefb;
-      background: transparent
-    }
-
-    textarea {
-      min-height: 90px
-    }
-
-    .ghost {
-      background: transparent;
-      border: 1px solid #d6e9ff;
-      color: var(--accent);
-      padding: 8px 12px;
-      border-radius: 8px
-    }
-
-    footer {
-      margin: 40px auto 60px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px
-    }
-
-    @media (max-width:900px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-
-    }
-
-    /* Dark mode variables */
-    [data-theme="dark"] {
-      --bg: #0f1724;
-      --card: #1e293b;
-      --muted: #94a3b8;
-      --accent: #0f7cff;
-      --glass: rgba(255, 255, 255, 0.1);
-    }
-
-    body[data-theme="dark"] {
-      background: linear-gradient(180deg, #0f1724 0%, #1e293b 100%);
-      color: #e2e8f0;
-    }
-
-    [data-theme="dark"] .panel {
-      background: var(--card);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    [data-theme="dark"] .compliance {
-      background: linear-gradient(180deg, #1e293b, #0f1724);
-    }
-
-    [data-theme="dark"] input,
-    [data-theme="dark"] textarea {
-      border-color: #334155;
-      color: #e2e8f0;
-    }
-
-    [data-theme="dark"] .ghost {
-      border-color: #0f7cff;
-      color: #0f7cff;
-    }
-
-    :root {
-      --bg-start: #f7fbff;
-      --bg-end: #eef6ff;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --accent: #0f7cff;
-      --glass: rgba(255, 255, 255, 0.6);
-    }
-
-    [data-theme="dark"] {
-      --bg-start: #0f1724;
-      --bg-end: #1e293b;
-      --card: #1e293b;
-      --muted: #94a3b8;
-      --glass: rgba(255, 255, 255, 0.1);
-    }
-
-    :root {
-      --bg-start: #f7fbff;
-      --bg-end: #eef6ff;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --accent: #0f7cff;
-      --glass: rgba(255, 255, 255, 0.6);
-      --text: #0f1724;
-      /* default dark text */
-    }
-
-    [data-theme="dark"] {
-      --bg-start: #0f1724;
-      --bg-end: #1e293b;
-      --card: #1e293b;
-      --muted: #94a3b8;
-      --glass: rgba(255, 255, 255, 0.1);
-      --text: #ffffff;
-      /* light text for dark mode */
-    }
-  </style>
 </head>
 
 <body class="bodyflex">
-  <header>
+  <header class="navdiv">
     <div class="logo">
-      <div class="logo-mark"><img src="GlasFlex.png" alt="Logo"></div>
+      <div class="logo-mark"><img src="images/GlasFlex.png" alt="Logo"></div>
       <div>
         <div style="font-weight:700">Glas-Flex.ch</div>
         <div style="font-size:12px;color:var(--muted)">flexible. transparent. sometimes sensible.</div>
       </div>
     </div>
+
     <nav class="nav">
       <a class="small" href="#about">About GlasFlex</a>
       <a class="small" href="#services">Services</a>
@@ -297,8 +30,9 @@
       <a class="button-alt" href="https://android.glas-flex.ch" target="_blank">About Android</a>
       <a class="button-alt" href="https://calcflex.glas-flex.ch" target="_blank">Calcflex Calculator</a>
       <a id="theme-toggle" href="#" class="btn">Dark Mode</a>
-
     </nav>
+
+
   </header>
 
   <main class="container">
@@ -310,18 +44,21 @@
             young software engineers, who love speaking Dutch.</p>
 
           <div class="features liquid-glas-flex padding">
+
             <div class="feature">
               <div class="dot">F</div>
               <div><strong>Flexible Software</strong>
                 <div class="small">Fast &amp; useful: we make software, which is working on every device.</div>
               </div>
             </div>
+
             <div class="feature">
               <div class="dot">L</div>
               <div><strong>Legendary Ideas</strong>
                 <div class="small">Games, that no one ever seen before and tools, that everybody dreamt of.</div>
               </div>
             </div>
+
             <div class="feature">
               <div class="dot">E</div>
               <div><strong>Exciting Updates</strong>
@@ -329,13 +66,16 @@
                   whole new tool.</div>
               </div>
             </div>
+
             <div class="feature">
               <div class="dot">X</div>
               <div><strong>Xpress Support</strong>
                 <div class="small">Report glitches through Compliance-Alarm, GitHub discussion or e-mail. They <span
-                    style="font-weight: bold; color: white;">will</span> be fixed.</div>
+                    style="font-weight: bold; color: white;">will</span> be fixed.
+                </div>
               </div>
             </div>
+
           </div>
 
           <div style="margin-top:18px;display:flex;gap:10px;align-items:center">
@@ -352,14 +92,23 @@
       <aside class="side-card">
         <div class="panel liquid-glas-flex">
           <h3 style="margin:0 0 8px">Compliance-Alarm</h3>
+
           <div class="liquid-glas-flex padding">
-            <div class="liquid-glas-flex padding">We were notified, that possibly someone is using <br><em>light mode</em>. While it isn't per se forbidden,
-            <span style="font-weight: bold; color: white;">we have eyes</span> so we prefer using dark mode.</div>
+
+            <div class="liquid-glas-flex padding">We were notified, that possibly someone is using <br><em>light
+                mode</em>. While it isn't per se forbidden,
+              <span style="font-weight: bold; color: white;">we have eyes</span> so we prefer using dark mode.
+            </div>
+
             <div style="margin-top:8px" class="small">If you have seen a light mode incident, we kindly ask you to
               report it to us using this form. You can write a text, but you can also add a video link or make a
-              handdrawn sketch. Everything is acceptable.</div>
+              handdrawn sketch. Everything is acceptable.
+            </div>
+
             <div style="margin-top:8px" class="small">If we more information will be needed four our investigation, we
-              will contact you per E-Mail.</div>
+              will contact you per E-Mail.
+            </div>
+
           </div>
 
           <hr style="margin:14px 0;border:none;border-top:1px solid #eef6ff">
@@ -370,7 +119,8 @@
             <label for="email">E-Mail</label>
             <input id="email" name="email" placeholder="you@example.ch" type="email" required class="liquid-glas-flex">
             <label for="msg">Short Explanation</label>
-            <textarea id="msg" name="msg" placeholder="When, where, what. Explain the incident." class="liquid-glas-flex"></textarea>
+            <textarea id="msg" name="msg" placeholder="When, where, what. Explain the incident."
+              class="liquid-glas-flex"></textarea>
             <div style="display:flex;gap:8px;margin-top:10px">
               <button type="submit" class="button-alt">Send</button>
               <button type="button" class="ghost" id="clear">Clear</button>
@@ -384,52 +134,11 @@
   </main>
 
   <footer>
-    <div>© Glas-Flex.ch 2025-2026</div>
+    <div class="footerdiv">© glas-glex.ch 2025-2026</div>
   </footer>
 
-  <script>
-    const form = document.getElementById('contact');
-    const result = document.getElementById('result');
-    const clear = document.getElementById('clear');
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const name = form.name.value.trim();
-      const email = form.email.value.trim();
-      if (!name || !email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-        result.textContent = 'Please include your Name and E-Mail.';
-        return;
-      }
-      result.textContent = 'Thank you. Your report has been sent to our flexible mailbox.';
-      form.reset();
-    });
-
-    clear.addEventListener('click', () => { form.reset(); result.textContent = 'Cleared.' });
-
-
-
-    const themeToggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
-
-    // Check saved preference
-    if (localStorage.getItem('theme') === 'dark') {
-      html.setAttribute('data-theme', 'dark');
-      themeToggle.textContent = 'Light Mode';
-    }
-
-    themeToggle.addEventListener('click', () => {
-      if (html.getAttribute('data-theme') === 'dark') {
-        html.removeAttribute('data-theme');
-        themeToggle.textContent = 'Dark Mode';
-        localStorage.setItem('theme', 'light');
-      } else {
-        html.setAttribute('data-theme', 'dark');
-        themeToggle.textContent = 'Light Mode';
-        localStorage.setItem('theme', 'dark');
-      }
-    });
-
-  </script>
 </body>
+<script src="/index/script.js" crossorigin="anonymous"></script>
 
 </html>
