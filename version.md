@@ -1,7 +1,7 @@
 ## Version
 
 ### Current Version
-V 0.2.0 (Release: 2026/02/05 9:00 AM GMT+1)
+V 0.2.1 (Release: 2026/02/05 9:50 AM GMT+1)
 
 ### Changelogs
 
@@ -28,3 +28,7 @@ V 0.2.0 (Release: 2026/02/05 9:00 AM GMT+1)
     - reworked buttons
     - reworked backgrounds
     - reworked form
+
+#### V 0.2.1 (Release: 2026/02/05 9:50 AM GMT+1)
+- added fixed header and footer
+- code cleanup
