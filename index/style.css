@@ -64,7 +64,6 @@ header {
     height: 100%;
     object-fit: contain;
     padding: 6px;
-    /* optional but recommended */
 }
 
 .footerdiv {
