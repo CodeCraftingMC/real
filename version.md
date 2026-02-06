@@ -1,7 +1,7 @@
 ## Version
 
 ### Current Version
-V 0.2.1 (Release: 2026/02/05 9:50 AM GMT+1)
+V 0.2.2 (Release: 2026/02/05 11:45 AM GMT+1)
 
 ### Changelogs
 
@@ -32,3 +32,7 @@ V 0.2.1 (Release: 2026/02/05 9:50 AM GMT+1)
 #### V 0.2.1 (Release: 2026/02/05 9:50 AM GMT+1)
 - added fixed header and footer
 - code cleanup
+
+#### V 0.2.2 (Release: 2026/02/05 11:45 AM GMT+1)
+- disabled useless buttons
+- converted to new Liquid-Glas-Flex utilities
