@@ -73,6 +73,10 @@ header {
   top: 50%;
 }
 
+.incident-header2 {
+  top: 60%
+}
+
 .logo-mark img {
   width: 100%;
   height: 100%;

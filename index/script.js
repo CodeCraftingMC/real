@@ -57,16 +57,19 @@ let today = new Date();
 startDate.setHours(0, 0, 0, 0);
 today.setHours(0, 0, 0, 0);
 
-let count = 0;
+let daysCount = 0;
 let current = new Date(startDate);
 
 while (current < today) {
   const day = current.getDay();
   if (day !== 0 && day !== 6) {
-    count++;
+    daysCount++;
   }
 
   current.setDate(current.getDate() + 1);
 }
 
-days.textContent = `${count}`;
+days.textContent = daysCount;
+
+const banLength = 5;
+document.getElementById("daysLeft").textContent = banLength - daysCount;
