@@ -30,7 +30,6 @@ if (localStorage.getItem("theme") === "dark") {
 }
 
 themeToggle.addEventListener("click", (e) => {
-
   e.preventDefault();
 
   if (html.getAttribute("data-theme") === "dark") {
@@ -50,10 +49,24 @@ document.documentElement.style.setProperty(
   navoffset.offsetHeight + "px",
 );
 
-// incident date injection
+// incident days injection
 const days = document.getElementById("incident");
 const startDate = new Date(2026, 3, 22);
-const today = new Date();
-const msPerDay = 1000 * 60 * 60 * 24;  
-const daysSince = Math.floor((today - startDate) / msPerDay);
-days.textContent = `${daysSince}`;
+let today = new Date();
+
+startDate.setHours(0, 0, 0, 0);
+today.setHours(0, 0, 0, 0);
+
+let count = 0;
+let current = new Date(startDate);
+
+while (current < today) {
+  const day = current.getDay();
+  if (day !== 0 && day !== 6) {
+    count++;
+  }
+
+  current.setDate(current.getDate() + 1);
+}
+
+days.textContent = `${count}`;
