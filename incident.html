@@ -65,6 +65,19 @@
     </script>
   </head>
 
+  <!-- 
+  fake form so JS doesn't crash 
+JS needs a rework so this isn't needed -> THIS IS TEMPORARY SOLUTION ONLY
+-->
+
+  <form id="contact" style="display: none">
+    <input name="name" />
+    <input name="email" />
+  </form>
+
+  <div id="result" style="display: none"></div>
+  <button id="clear" style="display: none"></button>
+
   <body class="bodyflex">
     <header class="navdiv">
       <div class="logo">

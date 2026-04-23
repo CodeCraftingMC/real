@@ -29,7 +29,10 @@ if (localStorage.getItem("theme") === "dark") {
   themeToggle.textContent = "Light Mode";
 }
 
-themeToggle.addEventListener("click", () => {
+themeToggle.addEventListener("click", (e) => {
+
+  e.preventDefault();
+
   if (html.getAttribute("data-theme") === "dark") {
     html.removeAttribute("data-theme");
     themeToggle.textContent = "Dark Mode";
