@@ -49,3 +49,11 @@ document.documentElement.style.setProperty(
   "--nav-height",
   navoffset.offsetHeight + "px",
 );
+
+// incident date injection
+const days = document.getElementById("incident");
+const startDate = new Date(2026, 3, 22);
+const today = new Date();
+const msPerDay = 1000 * 60 * 60 * 24;  
+const daysSince = Math.floor((today - startDate) / msPerDay);
+days.textContent = `${daysSince}`;
