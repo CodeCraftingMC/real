@@ -6,3 +6,5 @@
 - German translation
 - French translation
 - GUI rework (remove all AI code)
+
+test
