@@ -51,7 +51,7 @@ document.documentElement.style.setProperty(
 
 // incident days injection
 const days = document.getElementById("incident");
-const startDate = new Date(2026, 3, 22);
+const startDate = new Date(2026, 3, 23);
 let today = new Date();
 
 startDate.setHours(0, 0, 0, 0);

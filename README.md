@@ -1,4 +1,4 @@
 # real
 
 
-Gemaakt door de almachtige Glas-Flex.ch© in 2025-2026
+Gemaakt door de almachtige glas-flex.ch© in 2025-2026
