@@ -1,4 +1,5 @@
-﻿<header class="navdiv">
+﻿@using GlasFlex.Website.Application.Incident
+<header class="navdiv">
     <div class="logo">
         <div class="logo-mark">
             <img src="@Assets["img/logo.png"]" alt="Logo" />
@@ -12,10 +13,7 @@
     </div>
 
     <nav class="nav">
-        <p>
-            Days since last incident:
-            <span id="incident" style="color: darkorange; font-weight: bolder">0</span>
-        </p>
+        <IncidentDisplay />
         <a class="small" href="">About glas-flex</a>
         <a class="small" href="">Services</a>
         <a class="button-alt_Disabled" href="">Contact</a>

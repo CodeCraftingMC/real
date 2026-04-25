@@ -1,0 +1,16 @@
+﻿@using GlasFlex.Website.Domain.Incident
+@inject IIncidentService IncidentService
+
+<p>
+    Days since last incident:
+    <span id="incident" style="color: darkorange; font-weight: bolder">@_daysSinceLatestIncident</span>
+</p>
+
+@code {
+    private int _daysSinceLatestIncident;
+
+    override protected async Task OnInitializedAsync()
+    {
+        _daysSinceLatestIncident = await IncidentService.GetDaysSinceLatestIncidentAsync();
+    }
+}
