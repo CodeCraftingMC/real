@@ -1,10 +1,14 @@
+using GlasFlex.Website.Application.Incident;
 using GlasFlex.Website.Components;
+using GlasFlex.Website.Domain.Incident;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddSingleton<IIncidentService, IncidentService>();
 
 var app = builder.Build();
 
