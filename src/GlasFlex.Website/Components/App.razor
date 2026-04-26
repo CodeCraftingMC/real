@@ -12,12 +12,13 @@
     <link rel="stylesheet" href="@Assets["css/layout/default.css"]" />
     <link rel="stylesheet" href="@Assets["GlasFlex.Website.styles.css"]" />
     <ImportMap />
-    <HeadOutlet />
+    <HeadOutlet @rendermode="RenderMode.InteractiveServer" />
     <HeadMeta />
+    
 </head>
 
 <body>
-    <Routes />
+    <Routes @rendermode="RenderMode.InteractiveServer" />
     <ReconnectModal />
     <script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
