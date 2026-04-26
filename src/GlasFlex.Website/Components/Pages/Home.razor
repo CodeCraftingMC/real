@@ -72,44 +72,5 @@
         </div>
     </div>
 
-    <aside>
-        <div>
-            <h3>Compliance-Alarm</h3>
-
-            <div>
-                <div>
-                    We were notified, that possibly someone is using light mode.
-                    While it isn't per se forbidden, we have eyes so we prefer using dark mode.
-                </div>
-
-                <div>
-                    If you have seen a light mode incident, we kindly ask you to
-                    report it to us using this form. You can write a text, but you
-                    can also add a video link or make a handdrawn sketch. Everything
-                    is acceptable.
-                </div>
-
-                <div>
-                    If we more information will be needed four our investigation, we
-                    will contact you per E-Mail.
-                </div>
-            </div>
-
-            <hr />
-
-            <form>
-                <label for="name">Your Name</label>
-                <input id="name" name="name" placeholder="Name, Last Name" required />
-                <label for="email">E-Mail</label>
-                <input id="email" name="email" placeholder="you@example.ch" type="email" required />
-                <label for="msg">Short Explanation</label>
-                <textarea id="msg" name="msg" placeholder="When, where, what. Explain the incident."></textarea>
-                <div>
-                    <button type="submit">Send</button>
-                    <button type="button" id="clear">Clear</button>
-                </div>
-                <div id="result" role="status"></div>
-            </form>
-        </div>
-    </aside>
+    <ComplianceForm />
 </section>
