@@ -1,0 +1,41 @@
+.af-glass {
+    backdrop-filter: blur(10px);
+}
+
+.af-glass::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/aeroflex/glass.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -1;
+    
+    filter: hue-rotate(var(--af-hue));
+    border-radius: inherit;
+}
+
+.af-container {
+    border-radius: var(--br-m);
+    padding: var(--br-m);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    margin: var(--sp-m);
+}
+
+.af-button {
+    border: none;
+    border-radius: var(--br-s);
+    padding: var(--sp-s) var(--sp-m);
+    background-color: hsla(var(--af-hue), 100%, 18%, 0.2);
+    color: var(--font-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.af-button:hover {
+    background-color: hsla(var(--af-hue), 100%, 18%, 0.4);
+}
