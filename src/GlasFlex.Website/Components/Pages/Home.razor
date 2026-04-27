@@ -1,11 +1,12 @@
 ﻿@page "/"
+@inject IJSRuntime JS
 @using GlasFlex.Website.Application.ComplianceContact
 
 <PageTitle>Home</PageTitle>
 
-<section>
-    <div>
-        <div>
+<div class="home-layout">
+    <div class="home-layout-top">
+        <div class="af-p-m">
             <h1>Glass, how it should be — flexible enough for tomorrow</h1>
             <p>
                 glas-flex is a new Software Programming Studio started by very
@@ -13,65 +14,152 @@
                 speaking Dutch.
             </p>
 
-            <div>
-                <div>
-                    <div>F</div>
-                    <div>
-                        <strong>Flexible Software</strong>
-                        <div>
-                            Fast &amp; useful: we make software, which is working on
-                            every device.
-                        </div>
-                    </div>
-                </div>
+            <hr class="af-hr" />
 
-                <div>
-                    <div>L</div>
-                    <div>
-                        <strong>Legendary Ideas</strong>
-                        <div>
-                            Games, that no one ever seen before and tools that
-                            everybody dreamt of.
-                        </div>
-                    </div>
-                </div>
+            <div class="af-flex af-gap-m af-flex-nowrap af-flex-row af-flex-col-tablet">
 
-                <div>
-                    <div>E</div>
-                    <div>
-                        <strong>Exciting Updates</strong>
-                        <div>
-                            New content coming out almost every week. <br />
-                            Sometimes just a button, sometimes a whole new tool.
+                @foreach (Card card in _cards)
+                {
+                    <div class="af-card af-flex-1">
+                        <div class="af-card-icon">@card.Icon</div>
+                        <strong class="af-card-title">@card.Title</strong>
+                        <div class="af-card-content">
+                            @card.Content
                         </div>
                     </div>
-                </div>
-
-                <div>
-                    <div>X</div>
-                    <div>
-                        <strong>Xpress Support</strong>
-                        <div>
-                            Report glitches through GitHub discussion or e-mail.
-                            They will be fixed.
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
 
-            <div>
-                <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0&autoplay=1">Secure your Flex</a>
+            <div class="af-mt-m">
+                <button class="af-button" @onclick="ShowRickroll">Secure your Flex</button>
             </div>
         </div>
+        <hr class="af-hr" />
+    </div>
 
-        <div>
-            Disclaimer: Owners of glas-flex.ch are not responsible for any
-            damage caused to your device or/and network caused by their
-            negligence and/or unsufficient programming skills. glas-flex.ch is a
-            project done by unprofessional beginners wanting to share their
-            experiments.
+    <div class="home-layout-left" id="team">
+        <div class="af-container af-glass af-flex-1">
+            <h2>The Team</h2>
+
+            @foreach (TeamMember member in _teamMembers)
+            {
+                <div class="af-flex af-gap-m af-v-center">
+                    <img src="@member.AvatarUrl" alt="Icon" class="af-rounded" width="48" />
+                    <h3>@member.Name</h3>
+                    <div class="af-flex af-flex-1 af-gap-m af-justify-flex-end">
+                        @foreach(var link in member.Links)
+                        {
+                            <a class="af-button" href="@link.Value" target="_blank">@link.Key</a>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     </div>
 
-    <ComplianceForm />
-</section>
+    <div class="home-layout-right" id="contact">
+        <ComplianceForm />
+    </div>
+</div>
+
+
+@if (_showRickroll)
+{
+    <style>
+        .rickroll-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 2147483647;
+            background: black;
+        }
+
+        .rickroll-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            width: 100vw;
+            height: 56.25vw;
+
+            min-width: 177.78vh;
+            min-height: 100vh;
+
+            transform: translate(-50%, -50%);
+            border: 0;
+            pointer-events: none;
+        }
+    </style>
+    <div class="rickroll-overlay">
+        <iframe
+            class="rickroll-frame"
+            src="https://www.youtube.com/embed/2qBlE2-WL60?autoplay=1&controls=0&loop=1"
+            frameborder="0"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    </div>
+}
+
+@code {
+
+    private bool _showRickroll = false;
+
+    private async void ShowRickroll() {
+        _showRickroll = true;
+        await JS.InvokeVoidAsync("enterFullscreen");
+
+        await Task.Delay(10000);
+
+        _showRickroll = false;
+        StateHasChanged();
+    }
+
+    private readonly Card[] _cards = new[]
+    {
+        new Card("F", "Flexible Software", "Fast & useful: we make software, which works on every device (sometimes)."),
+        new Card("L", "Legendary Ideas", "Games, that no one ever seen before and tools that everybody dreamt of."),
+        new Card("E", "Exciting Updates", "New content coming out almost every week. Sometimes just a button, sometimes a whole new tool."),
+        new Card("X", "Xpress Support", "Report glitches through GitHub discussion or e-mail. They will be fixed.")
+    };
+
+    private readonly TeamMember[] _teamMembers = new[]
+    {
+        new TeamMember("Zenn (aka. Lorin)", "https://git.zenn.sh/uploads/-/system/user/avatar/1/avatar.png?width=48",
+            new()
+            {
+                { "GitLab", "https://git.zenn.sh/zenn" },
+                { "GitHub", "https://github.com/CodeCraftingMC" }
+            }),
+        new TeamMember("Filip", "https://avatars.githubusercontent.com/u/226062935?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-filip-k" }
+            }),
+        new TeamMember("digi00 (aka. Diego)", "https://avatars.githubusercontent.com/u/225875697?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-Diego-J" }
+            }),
+        new TeamMember("Tim", "https://avatars.githubusercontent.com/u/225876594?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-tim-c" }
+            }),
+        new TeamMember("fiban (aka. Fabian)", "https://avatars.githubusercontent.com/u/225875854?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-fabian-b" }
+            }),
+        new TeamMember(Name: "Noe Eberli", "https://avatars.githubusercontent.com/u/225876496?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-noe-e" }
+            }),
+    };
+
+    private record class Card(string Icon, string Title, string Content);
+    private record class TeamMember(string Name, string AvatarUrl, Dictionary<string, string> Links);
+}
