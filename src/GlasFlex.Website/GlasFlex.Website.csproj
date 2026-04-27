@@ -7,4 +7,13 @@
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Application/ComplianceContact/" />
+    <Folder Include="Contract/" />
+    <Folder Include="Contract/Incident/" />
+    <Folder Include="Domain/" />
+    <Folder Include="Domain/ComplianceContact/" />
+    <Folder Include="Domain/Incident/" />
+  </ItemGroup>
+
 </Project>
