@@ -1,8 +1,10 @@
 @using GlasFlex.Website.Contract.ComplianceContact
 @using Microsoft.AspNetCore.Components.Forms
 
-<div>
-    <h3>Compliance-Alarm</h3>
+<div class="af-container af-glass">
+    <h2>Compliance-Alarm</h2>
+    
+    <hr class="af-hr" />
 
     <div>
         <div>
@@ -23,23 +25,24 @@
         </div>
     </div>
 
-    <hr />
+    <hr class="af-hr" />
 
-    <EditForm Model="FormInput" OnValidSubmit="Submit" FormName="complianceForm">
+    <EditForm Model="FormInput" OnValidSubmit="Submit" FormName="complianceForm" class="af-flex af-gap-s af-flex-col">
         <DataAnnotationsValidator />
-        <ValidationSummary />
-        <label>
+        <label class="af-flex af-gap-s af-flex-col">
             Your Name
-            <InputText @bind-Value="FormInput!.Name" placeholder="Name, Last Name" />
+            <InputText class="af-input" @bind-Value="FormInput!.Name" placeholder="Name, Last Name" />
         </label>
-        <label>
+        <label class="af-flex af-gap-s af-flex-col">
             E-Mail
-            <InputText @bind-Value="FormInput!.Email" placeholder="you@example.ch" type="email" />
+            <InputText class="af-input" @bind-Value="FormInput!.Email" placeholder="you@example.ch" type="email" />
         </label>
-        <label>
+        <label class="af-flex af-gap-s af-flex-col">
             Short Explanation
-            <InputTextArea @bind-Value="FormInput!.Message" placeholder="When, where, what. Explain the incident." />
+            <InputTextArea class="af-input" @bind-Value="FormInput!.Message" placeholder="When, where, what. Explain the incident." />
         </label>
+
+        <ValidationSummary class="af-validation-summary" />
 
         <div>
             <button type="submit" class="af-button">Send</button>
