@@ -1,10 +1,10 @@
 ﻿@using GlasFlex.Website.Domain.Incident
 @inject IIncidentService IncidentService
 
-<p>
+<div>
     Days since last incident:
     <span id="incident" style="color: darkorange; font-weight: bolder">@_daysSinceLatestIncident</span>
-</p>
+</div>
 
 @code {
     private int _daysSinceLatestIncident;
