@@ -1,11 +1,11 @@
 ﻿@using GlasFlex.Website.Application.Incident
 
-<header>
-    <div>
+<header class="af-glass af-p-s">
+    <div class="af-flex af-v-center">
         <div>
-            <img src="@Assets["img/logo.png"]" alt="Logo" />
+            <img height="100" src="@Assets["img/logo.png"]" alt="Logo" />
         </div>
-        <div>
+        <div class="af-flex af-gap-s af-flex-col">
             <div>glas-flex.ch</div>
             <div>
                 flexible. transparent. sometimes sensible.
@@ -13,14 +13,16 @@
         </div>
     </div>
 
-    <nav>
-        <IncidentDisplay />
-        <a href="">About glas-flex</a>
-        <a href="">Services</a>
-        <a href="">Contact</a>
-        <a href="/game.html">Game</a>
-        <a href="https://android.glas-flex.ch" target="_blank">About Android</a>
-        <a href="https://calcflex.glas-flex.ch" target="_blank">Calcflex Calculator</a>
-        <a href="#">Dark Mode</a>
-    </nav>
+    <div class="af-container af-flex af-gap-m af-v-center af-space-between af-flex-col-tablet">
+        <nav class="af-flex af-gap-s af-flex-row af-flex-col-tablet">
+            <NavLink class="af-button" href="/">Home</NavLink>
+            <NavLink class="af-button" href="/#team">The Team</NavLink>
+            <NavLink class="af-button" href="/#contact">Contact</NavLink>
+            <NavLink class="af-button" href="/projects" target="_blank">Projects</NavLink>
+        </nav>
+        <div class="af-flex af-gap-s af-v-center af-flex-col-tablet">
+            <button class="af-button">Light Mode</button>
+            <IncidentDisplay />
+        </div>
+    </div>
 </header>
