@@ -24,6 +24,28 @@ builder.Services.AddSingleton<IComplianceService, DiscordWebhookComplianceServic
 builder.Services.AddSingleton<IRateLimitStore, InMemoryRateLimitStore>();
 builder.Services.AddSingleton<IRateLimiter, RateLimiter>();
 
+if(!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddResponseCompression();
+
+    string? reverseProxyIp = Environment.GetEnvironmentVariable("REVERSE_PROXY_IP");
+
+    if(string.IsNullOrWhiteSpace(reverseProxyIp))
+    {
+        throw new Exception("REVERSE_PROXY_IP environment variable is not set.");
+    }
+
+    builder.Services.Configure<ForwardedHeadersOptions>(options =>
+    {
+        options.ForwardedHeaders =
+            Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
+            Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+
+        // Get from environment
+        options.KnownProxies.Add(System.Net.IPAddress.Parse(reverseProxyIp));
+    });
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +54,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    app.UseForwardedHeaders();
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
