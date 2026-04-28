@@ -52,10 +52,6 @@ public sealed class ComplianceRateLimitOptions
         [@"(?i)\b(?:https?://|www\.)\S+"] =
             new(10, TimeSpan.FromMinutes(20)),
 
-        // HTML tags
-        [@"<[^>]+>"] =
-            new(15, TimeSpan.FromMinutes(20)),
-
         // JWT-like tokens
         [@"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}"] =
             new(30, TimeSpan.FromHours(1)),
