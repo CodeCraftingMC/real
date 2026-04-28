@@ -13,7 +13,7 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @inject ILogger<ComplianceForm> _logger
 
-<div class="af-container af-glass">
+<div class="af-container af-glass af-flex af-flex-col @Class">
     <h2>Compliance-Alarm</h2>
     
     <hr class="af-hr" />
@@ -39,7 +39,7 @@
 
     <hr class="af-hr" />
 
-    <EditForm Model="FormInput" OnValidSubmit="Submit" FormName="complianceForm" class="af-flex af-gap-s af-flex-col">
+    <EditForm Model="FormInput" OnValidSubmit="Submit" FormName="complianceForm" class="af-flex af-gap-s af-flex-col af-flex-1 af-space-between">
         <DataAnnotationsValidator />
         <label class="af-flex af-gap-s af-flex-col">
             Your Name
@@ -49,9 +49,9 @@
             E-Mail
             <InputText class="af-input" @bind-Value="FormInput!.Email" placeholder="you@example.ch" type="email" />
         </label>
-        <label class="af-flex af-gap-s af-flex-col">
+        <label class="af-flex af-gap-s af-flex-col af-flex-1">
             Short Explanation
-            <InputTextArea class="af-input" @bind-Value="FormInput!.Message" placeholder="When, where, what. Explain the incident." />
+            <InputTextArea class="af-input af-flex-1" @bind-Value="FormInput!.Message" placeholder="When, where, what. Explain the incident." />
         </label>
 
         <InputText class="af-input" @bind-Value="FormInput!.Subject" style="display:none" autocomplete="off" />
@@ -72,6 +72,9 @@
 @code {
     [SupplyParameterFromForm]
     private ComplianceFormInput? FormInput { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
 
     private string _message = string.Empty;
     private string? _userAgent;
