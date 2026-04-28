@@ -1,0 +1,48 @@
+﻿@page "/projects"
+@inject IJSRuntime JS
+@using GlasFlex.Website.Application.ComplianceContact
+
+<PageTitle>Glas-Flex | Projects</PageTitle>
+
+<div>
+    <div class="af-p-m">
+        <h1>Projects</h1>
+        <p>
+            These are some of our <i>amazing</i> projects. Take a look around, maybe you <i>will</i> find something useful for you. Or maybe you just want to see some of our <b>"brilliant"</b> code, we don't mind.
+        </p>
+        <hr class="af-hr" />
+    </div>
+    <div class="project-gallery">
+        <div class="af-container af-flex af-flex-col af-gap-m af-space-between">
+            <div>
+                <h2>CalcFlex Calculator</h2>
+                <p>A truly flexible calculator that can't really do anything other than calculating...</p>
+            </div>
+            <img src="@Assets["img/project/calcflex.png"]" alt="Screenshot of the CalcFlex Calculator" class="af-mt-m af-br-s" />
+            <div class="af-mb-m">
+                <NavLink class="af-button" href="https://calcflex.glas-flex.ch" target="_blank">Visit</NavLink>
+            </div>
+        </div>
+        <div class="af-container af-flex af-flex-col af-gap-m af-space-between">
+            <div>
+                <h2>GlasFlex Android</h2>
+                <p>Some random website without really any meaning... <b>CHECK. IT. OUT.</b> (no pressure)</p>
+                <small>There is also a small game there :P</small>
+            </div>
+            <img src="@Assets["img/project/glasflex-android.png"]" alt="Screenshot of the GlasFlex Android site" class="af-mt-m af-br-s" />
+            <div class="af-mb-m">
+                <NavLink class="af-button" href="https://android.glas-flex.ch" target="_blank">Visit</NavLink>
+            </div>
+        </div>
+        <div class="af-container af-flex af-flex-col af-gap-m af-space-between">
+            <div>
+                <h2>GlasFlex Case</h2>
+                <p>We know that you are a gambling addict. You can't get any money from this though.</p>
+            </div>
+            <img src="@Assets["img/project/glasflex-case.png"]" alt="Screenshot of the GlasFlex Case site" class="af-mt-m af-br-s" />
+            <div class="af-mb-m">
+                <NavLink class="af-button" href="https://case.glas-flex.ch" target="_blank">Visit</NavLink>
+            </div>
+        </div>
+    </div>
+</div>
