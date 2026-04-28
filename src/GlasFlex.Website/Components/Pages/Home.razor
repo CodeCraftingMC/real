@@ -43,16 +43,17 @@
 
             @foreach (TeamMember member in _teamMembers)
             {
-                <div class="af-flex af-gap-m af-v-center">
+                <div class="af-flex af-gap-s af-v-center af-flex-col-mobile">
                     <img src="@member.AvatarUrl" alt="Icon" class="af-rounded" width="48" />
                     <h3>@member.Name</h3>
-                    <div class="af-flex af-flex-1 af-gap-m af-justify-flex-end">
+                    <div class="af-flex af-flex-1 af-gap-m af-justify-flex-end af-mb-m">
                         @foreach(var link in member.Links)
                         {
                             <a class="af-button" href="@link.Value" target="_blank">@link.Key</a>
                         }
                     </div>
                 </div>
+                <hr class="af-hr" />
             }
         </div>
     </div>
