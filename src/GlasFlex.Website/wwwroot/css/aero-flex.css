@@ -11,7 +11,6 @@
     padding: var(--sp-m);
     box-shadow: var(--shadow-1);
     margin: var(--sp-m);
-    overflow: hidden;
 }
 
 .af-card {
