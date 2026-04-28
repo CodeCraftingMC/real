@@ -99,6 +99,18 @@
     border-radius: 999px;
 }
 
+.af-br-s {
+    border-radius: var(--br-s);
+}
+
+.af-br-m {
+    border-radius: var(--br-m);
+}
+
+.af-br-l {
+    border-radius: var(--br-l);
+}
+
 .af-flex {
     display: flex;
 }
@@ -219,6 +231,14 @@
     height: 100%;
 }
 
+.af-width-100 {
+    width: 100%;
+}
+
+.af-min-width-40 {
+    min-width: 40%;
+}
+
 /* Mobile */
 @media (max-width: 600px) {
     .af-flex-wrap-mobile {
@@ -227,6 +247,10 @@
 
     .af-flex-col-mobile {
         flex-direction: column;
+    }
+
+    .af-width-100-mobile {
+        width: 100%;
     }
 }
 
@@ -239,6 +263,10 @@
     .af-flex-col-tablet {
         flex-direction: column;
     }
+
+    .af-width-100-tablet {
+        width: 100%;
+    }
 }
 
 /* Desktop */
@@ -249,5 +277,9 @@
 
     .af-flex-col-desktop {
         flex-direction: column;
+    }
+
+    .af-width-100-desktop {
+        width: 100%;
     }
 }
