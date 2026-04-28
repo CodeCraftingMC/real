@@ -48,10 +48,6 @@ public sealed class ComplianceRateLimitOptions
 
     public Dictionary<string, RatelimitScore> BlockedRegexPoints { get; set; } = new()
     {
-        // Links
-        [@"(?i)\b(?:https?://|www\.)\S+"] =
-            new(10, TimeSpan.FromMinutes(20)),
-
         // HTML tags
         [@"<[^>]+>"] =
             new(15, TimeSpan.FromMinutes(20)),
