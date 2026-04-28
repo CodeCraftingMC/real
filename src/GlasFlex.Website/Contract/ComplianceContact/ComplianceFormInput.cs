@@ -14,4 +14,9 @@ public class ComplianceFormInput
     [Required]
     [StringLength(400, MinimumLength = 10, ErrorMessage = "Message must be between 10 and 400 characters.")]
     public string Message { get; set; } = string.Empty;
+
+    public string Subject { get; set; } = string.Empty; // This is a honeypot field. It should be left empty
+    public string ReplyTo { get; set; } = string.Empty; // This is a honeypot field. It should be left empty
+    public string UserAgent { get; set; } = string.Empty; // This is a honeypot field. It should be left empty
+    public string Referrer { get; set; } = string.Empty; // This is a honeypot field. It should be left empty
 }
