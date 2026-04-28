@@ -11,3 +11,15 @@
     --sp-l: 24px;
     --sp-xl: 32px;
 }
+
+/* Tablet */
+@media (max-width: 900px) {
+    :root {
+
+        /* Spacing */
+        --sp-s: 6px;
+        --sp-m: 12px;
+        --sp-l: 18px;
+        --sp-xl: 24px;
+    }
+}
