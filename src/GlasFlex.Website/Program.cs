@@ -1,6 +1,11 @@
+using GlasFlex.Website.Application.ComplianceContact;
 using GlasFlex.Website.Application.Incident;
+using GlasFlex.Website.Application.Ratelimiter;
 using GlasFlex.Website.Components;
+using GlasFlex.Website.Domain.ComplianceContact;
 using GlasFlex.Website.Domain.Incident;
+using GlasFlex.Website.Domain.Ratelimiter;
+using GlasFlex.Website.Option.ComplianceContact;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<DiscordComplianceContactOptions>(builder.Configuration.GetSection("DiscordComplianceContact"));
+builder.Services.Configure<ComplianceRateLimitOptions>(builder.Configuration.GetSection("ComplianceRateLimit"));
+
 builder.Services.AddSingleton<IIncidentService, IncidentService>();
+builder.Services.AddSingleton<IComplianceService, DiscordWebhookComplianceService>();
+builder.Services.AddSingleton<IRateLimitStore, InMemoryRateLimitStore>();
+builder.Services.AddSingleton<IRateLimiter, RateLimiter>();
 
 var app = builder.Build();
 
