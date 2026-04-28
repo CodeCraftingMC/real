@@ -1,0 +1,25 @@
+:root {
+  --hue-accent: 217deg;
+  --accent: var(--hue-accent), 100%, 48%;
+  --font-color: hsl(var(--hue-accent), 60%, 11%);
+
+  --bg-primary: var(--hue-accent), 50%, 90%;
+  --bg-secondary: var(--hue-accent), 60%, 85%;
+  --bg-tertiary: var(--hue-accent), 75%, 80%;
+
+  --gradient-accent-begin: var(--hue-accent), 100%, 88%, 0.3;
+  --gradient-accent-end: var(--hue-accent), 100%, 38%, 0.6;
+
+  
+  --transparent-1: var(--hue-accent), 100%, 18%, 0.1;
+  --transparent-2: var(--hue-accent), 100%, 18%, 0.2;
+  --transparent-3: var(--hue-accent), 100%, 18%, 0.3;
+  --transparent-4: var(--hue-accent), 100%, 18%, 0.4;
+
+  --shadow-1: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px,
+    rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px,
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+}

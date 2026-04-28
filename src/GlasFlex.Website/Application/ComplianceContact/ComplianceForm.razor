@@ -1,0 +1,177 @@
+@using GlasFlex.Website.Contract.ComplianceContact
+@using GlasFlex.Website.Domain.ComplianceContact
+@using GlasFlex.Website.Domain.Ratelimiter
+@using GlasFlex.Website.Option.ComplianceContact
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.RateLimiting
+@using Microsoft.Extensions.Options
+
+
+@inject IComplianceService ComplianceService
+@inject IRateLimiter RateLimiter
+@inject IOptions<ComplianceRateLimitOptions> ComplianceRateLimitOptions
+@inject IHttpContextAccessor HttpContextAccessor
+@inject ILogger<ComplianceForm> _logger
+
+<div class="af-container af-glass af-flex af-flex-col @Class">
+    <h2>Compliance-Alarm</h2>
+    
+    <hr class="af-hr" />
+
+    <div>
+        <div>
+            We were notified, that possibly someone is using <i>light mode</i>.
+            While it isn't theoretically forbidden, we have eyes so we prefer using <b>dark mode</b>.
+        </div>
+
+        <div>
+            If you have seen a light mode incident, or want to report something to use,
+            we kindly ask you to fill in this form. You can write a text, but you
+            can also add a video link or make a handdrawn sketch. Everything
+            is acceptable.
+        </div>
+
+        <div>
+            If more information is needed for our investigation,
+            we may respond to your mail.
+        </div>
+    </div>
+
+    <hr class="af-hr" />
+
+    <EditForm Model="FormInput" OnValidSubmit="Submit" FormName="complianceForm" class="af-flex af-gap-s af-flex-col af-flex-1 af-space-between">
+        <DataAnnotationsValidator />
+        <label class="af-flex af-gap-s af-flex-col">
+            Your Name
+            <InputText class="af-input" @bind-Value="FormInput!.Name" placeholder="Name, Last Name" />
+        </label>
+        <label class="af-flex af-gap-s af-flex-col">
+            E-Mail
+            <InputText class="af-input" @bind-Value="FormInput!.Email" placeholder="you@example.ch" type="email" />
+        </label>
+        <label class="af-flex af-gap-s af-flex-col af-flex-1">
+            Short Explanation
+            <InputTextArea class="af-input af-flex-1" @bind-Value="FormInput!.Message" placeholder="When, where, what. Explain the incident." />
+        </label>
+
+        <InputText class="af-input" @bind-Value="FormInput!.Subject" style="display:none" autocomplete="off" />
+        <InputText class="af-input" @bind-Value="FormInput!.ReplyTo" style="display:none" autocomplete="off" />
+        <InputText class="af-input" @bind-Value="FormInput!.UserAgent" style="display:none" autocomplete="off" />
+        <InputText class="af-input" @bind-Value="FormInput!.Referrer" style="display:none" autocomplete="off" />
+
+        <ValidationSummary class="af-validation-summary" />
+        <p>@_message</p>
+
+        <div>
+            <button type="submit" class="af-button">Send</button>
+            <button type="button" class="af-button" @onclick="ClearForm">Clear</button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private ComplianceFormInput? FormInput { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    private string _message = string.Empty;
+    private string? _userAgent;
+    private string _ip = "unknown";
+
+    private ComplianceRateLimitOptions RateLimitOptions => ComplianceRateLimitOptions.Value;
+
+    protected override void OnInitialized()
+    {
+        FormInput = new ComplianceFormInput();
+        _userAgent = HttpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString();
+        _ip = HttpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString() ?? _ip;
+    }
+
+    private bool MatchRegex(string? input, string pattern)
+    {
+        if (string.IsNullOrEmpty(input))
+            return false;
+
+        return System.Text.RegularExpressions.Regex.IsMatch(input, pattern);
+    }
+
+    private async Task Submit()
+    {
+        ComplianceFormInput? input = FormInput;
+        if(input is null)
+        {
+            _message = "Form input is invalid. Please fill out the form correctly.";
+            StateHasChanged();
+            return;
+        }
+
+        bool hasHoneypotFields = !string.IsNullOrEmpty(FormInput?.Subject) || !string.IsNullOrEmpty(FormInput?.ReplyTo) || !string.IsNullOrEmpty(FormInput?.UserAgent) || !string.IsNullOrEmpty(FormInput?.Referrer);
+        
+        if(hasHoneypotFields)
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.HoneypotFilledPoints);
+            _logger.LogWarning("Honeypot fields filled. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
+        }
+
+        if(string.IsNullOrWhiteSpace(_userAgent))
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NoUserAgentPoints);
+            _logger.LogWarning("No User-Agent provided. IP: {IP}", _ip);
+        }
+
+        if(MatchRegex(_userAgent, RateLimitOptions.BlockedUserAgentsRegex))
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.BlockedUserAgentPoints);
+            _logger.LogWarning("Blocked User-Agent detected. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
+        } 
+
+        foreach(var pattern in RateLimitOptions.BlockedRegexPoints)
+        {
+            if(MatchRegex(input.Name, pattern.Key)
+                || MatchRegex(input.Email, pattern.Key)
+                || MatchRegex(input.Message, pattern.Key))
+            {
+                await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, pattern.Value);
+                _logger.LogWarning("Blocked content pattern detected. IP: {IP}, Pattern: {Pattern}", _ip, pattern.Key);
+            }
+        }
+
+        bool isFakeAllow = await RateLimiter.IsLimitedAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.FakeSuccessPoints);
+        bool isRateLimited = await RateLimiter.IsLimitedAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.MaxPoints);
+
+        if(isFakeAllow)
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NormalRequestPoints);
+            ClearForm();
+            _message = "Thank you for your report! We will investigate the incident and contact you if we need more information.";
+            StateHasChanged();
+            return;
+        } 
+
+        if(!isRateLimited && await ComplianceService.SendComplianceNotificationAsync(input))
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NormalRequestPoints);
+            ClearForm();
+            _message = "Thank you for your report! We will investigate the incident and contact you if we need more information.";
+        }
+        else if(isRateLimited)
+        {
+            _message = "We have already received your report. Please wait while we investigate the incident. If we need more information, we will contact you per E-Mail.";
+        }
+        else
+        {
+            _message = "Failed to send your report. Please try again later.";
+        }
+
+        StateHasChanged();
+    }
+
+    private void ClearForm()
+    {
+        FormInput = new ComplianceFormInput();
+        _message = string.Empty;
+        StateHasChanged();
+    }
+}

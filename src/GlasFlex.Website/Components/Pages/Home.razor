@@ -1,0 +1,159 @@
+﻿@page "/"
+@inject IJSRuntime JS
+@using GlasFlex.Website.Application.ComplianceContact
+
+<PageTitle>Glas-Flex | Flexible Thinking, Glas-Clear Coding</PageTitle>
+
+<div class="home-layout">
+    <div class="home-layout-top">
+        <div class="af-p-m">
+            <h1>Glass, how it should be — flexible enough for tomorrow</h1>
+            <p>
+                glas-flex is a Software Programming Studio started by some "very
+                skilled" and very <b>unprofessional</b> young software engineers, who love
+                speaking Dutch (even though they can't).
+            </p>
+
+            <hr class="af-hr" />
+
+            <div class="af-flex af-gap-m af-flex-nowrap af-flex-row af-flex-col-tablet">
+
+                @foreach (Card card in _cards)
+                {
+                    <div class="af-card af-flex-1">
+                        <div class="af-card-icon">@card.Icon</div>
+                        <strong class="af-card-title">@card.Title</strong>
+                        <div class="af-card-content">
+                            @card.Content
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="af-mt-m">
+                <button class="af-button" @onclick="ShowRickroll">Secure your Flex</button>
+            </div>
+        </div>
+        <hr class="af-hr" />
+    </div>
+
+    <div class="home-layout-left" id="team">
+        <div class="af-container af-glass af-flex-1">
+            <h2>The Team</h2>
+
+            @foreach (TeamMember member in _teamMembers)
+            {
+                <div class="af-flex af-gap-s af-v-center af-flex-col-mobile">
+                    <img src="@member.AvatarUrl" alt="Icon" class="af-rounded" width="48" />
+                    <h3>@member.Name</h3>
+                    <div class="af-flex af-flex-1 af-gap-m af-justify-flex-end af-mb-m">
+                        @foreach(var link in member.Links)
+                        {
+                            <a class="af-button" href="@link.Value" target="_blank">@link.Key</a>
+                        }
+                    </div>
+                </div>
+                <hr class="af-hr" />
+            }
+        </div>
+    </div>
+
+    <div class="home-layout-right" id="contact">
+        <ComplianceForm Class="af-flex-1" />
+    </div>
+</div>
+
+
+@if (_showRickroll)
+{
+    <style>
+        .rickroll-overlay {
+            position: fixed;
+            inset: 0;
+            background: black;
+            overflow: hidden;
+        }
+
+        .rickroll-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            transform: translate(-50%, -50%) scale(1.2);
+            border: 0;
+            pointer-events: none;
+        }
+    </style>
+    <div id="rickroll-overlay" class="rickroll-overlay">
+        <iframe
+            class="rickroll-frame"
+            src="https://www.youtube.com/embed/2qBlE2-WL60?autoplay=1&controls=0&loop=1"
+            frameborder="0"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    </div>
+}
+
+@code {
+
+    private bool _showRickroll = false;
+
+    private async void ShowRickroll() {
+        _showRickroll = true;
+        await JS.InvokeVoidAsync("enterFullscreen");
+        await JS.InvokeVoidAsync("moveToBody", "rickroll-overlay");
+
+        await Task.Delay(10000);
+
+        _showRickroll = false;
+        StateHasChanged();
+    }
+
+    private readonly Card[] _cards = new[]
+    {
+        new Card("F", "Flexible Software", "Fast & useful: we make software, which works on every device (sometimes)."),
+        new Card("L", "Legendary Ideas", "Games, that no one ever seen before and tools that nobody asked for."),
+        new Card("E", "Exciting Updates", "New content coming out almost every week... no, month... actually, year. Anyways, sometimes just a button, sometimes a whole new tool."),
+        new Card("X", "Xpress Support", "Report glitches through GitHub discussion or the compliance alarm. They will (maybe) get fixed.")
+    };
+
+    private readonly TeamMember[] _teamMembers = new[]
+    {
+        new TeamMember("Zenn (aka. Lorin), Professional Idiot", "https://git.zenn.sh/uploads/-/system/user/avatar/1/avatar.png?width=48",
+            new()
+            {
+                { "GitLab", "https://git.zenn.sh/zenn" },
+                { "GitHub", "https://github.com/CodeCraftingMC" }
+            }),
+        new TeamMember("Filip, Train Enthusiast", "https://avatars.githubusercontent.com/u/226062935?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-filip-k" }
+            }),
+        new TeamMember("digi00 (aka. Diego), Java Expert", "https://avatars.githubusercontent.com/u/225875697?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-Diego-J" }
+            }),
+        new TeamMember("Tim, GD Addict", "https://avatars.githubusercontent.com/u/225876594?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-tim-c" }
+            }),
+        new TeamMember("fiban (aka. Fabian), Müllma", "https://avatars.githubusercontent.com/u/225875854?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-fabian-b" }
+            }),
+        new TeamMember(Name: "Noe Eberli, Software Engineer Apprentice", "https://avatars.githubusercontent.com/u/225876496?v=4",
+            new()
+            {
+                { "GitHub", "https://github.com/ny-noe-e" }
+            }),
+    };
+
+    private record class Card(string Icon, string Title, string Content);
+    private record class TeamMember(string Name, string AvatarUrl, Dictionary<string, string> Links);
+}

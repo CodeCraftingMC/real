@@ -1,0 +1,28 @@
+﻿@using GlasFlex.Website.Application.Incident
+
+<header class="af-glass af-p-s">
+    <div class="af-flex af-v-center">
+        <div class="af-height-100 af-flex af-v-center">
+            <img height="100" src="@Assets["img/logo.png"]" alt="Logo" />
+        </div>
+        <div class="af-flex af-gap-s af-flex-col">
+            <h1 class="af-m-s">glas-flex.ch</h1>
+            <div class="af-m-s">
+                <i>flexible. transparent. sometimes sensible.</i>
+            </div>
+        </div>
+    </div>
+
+    <div class="af-container af-flex af-gap-m af-v-center af-space-between af-flex-col-tablet">
+        <nav class="af-flex af-gap-s af-flex-row af-flex-col-tablet af-width-100-tablet af-flex-1">
+            <NavLink class="af-button af-flex-1" href="/">Home</NavLink>
+            <NavLink class="af-button af-flex-1" href="/#team">The Team</NavLink>
+            <NavLink class="af-button af-flex-1" href="/#contact">Contact</NavLink>
+            <NavLink class="af-button af-flex-1" href="/projects">Projects</NavLink>
+        </nav>
+        <div class="af-flex af-gap-s af-v-center af-flex-col-tablet">
+            @*<button class="af-button">Light Mode</button> This will be implemented later, for now only dark mode*@
+            <IncidentDisplay />
+        </div>
+    </div>
+</header>

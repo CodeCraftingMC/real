@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <ResourcePreloader />
+    <link rel="stylesheet" href="@Assets["css/aero-flex.css"]" />
+    <link rel="stylesheet" href="@Assets["css/app.css"]" />
+    <link rel="stylesheet" href="@Assets["css/color/dark.css"]" />
+    <link rel="stylesheet" href="@Assets["css/layout/default.css"]" />
+    <link rel="stylesheet" href="@Assets["GlasFlex.Website.styles.css"]" />
+    <ImportMap />
+    <HeadOutlet @rendermode="RenderMode.InteractiveServer" />
+    <HeadMeta />
+    
+</head>
+
+<body>
+    <Routes @rendermode="RenderMode.InteractiveServer" />
+    <ReconnectModal />
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+    <script src="@Assets["js/interop.js"]"></script>
+</body>
+
+</html>

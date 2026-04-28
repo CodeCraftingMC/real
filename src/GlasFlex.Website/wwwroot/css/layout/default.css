@@ -1,0 +1,25 @@
+:root {
+    /* Border Radius */
+    --br-s: 8px;
+    --br-m: 16px;
+    --br-l: 24px;
+    --br-xl: 32px;
+
+    /* Spacing */
+    --sp-s: 8px;
+    --sp-m: 16px;
+    --sp-l: 24px;
+    --sp-xl: 32px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    :root {
+
+        /* Spacing */
+        --sp-s: 6px;
+        --sp-m: 12px;
+        --sp-l: 18px;
+        --sp-xl: 24px;
+    }
+}
