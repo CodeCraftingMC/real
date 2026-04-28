@@ -11,6 +11,7 @@
 @inject IRateLimiter RateLimiter
 @inject IOptions<ComplianceRateLimitOptions> ComplianceRateLimitOptions
 @inject IHttpContextAccessor HttpContextAccessor
+@inject ILogger<ComplianceForm> _logger
 
 <div class="af-container af-glass">
     <h2>Compliance-Alarm</h2>
@@ -108,19 +109,19 @@
         if(hasHoneypotFields)
         {
             await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.HoneypotFilledPoints);
-            Console.WriteLine($"Honeypot fields filled. IP: {_ip}, User-Agent: {_userAgent}");
+            _logger.LogWarning("Honeypot fields filled. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
         }
 
         if(string.IsNullOrWhiteSpace(_userAgent))
         {
             await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NoUserAgentPoints);
-            Console.WriteLine($"No User-Agent provided. IP: {_ip}");
+            _logger.LogWarning("No User-Agent provided. IP: {IP}", _ip);
         }
 
         if(MatchRegex(_userAgent, RateLimitOptions.BlockedUserAgentsRegex))
         {
             await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.BlockedUserAgentPoints);
-            Console.WriteLine($"Blocked User-Agent detected. IP: {_ip}, User-Agent: {_userAgent}");
+            _logger.LogWarning("Blocked User-Agent detected. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
         } 
 
         foreach(var pattern in RateLimitOptions.BlockedRegexPoints)
@@ -130,7 +131,7 @@
                 || MatchRegex(input.Message, pattern.Key))
             {
                 await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, pattern.Value);
-                Console.WriteLine($"Blocked content pattern detected. IP: {_ip}, Pattern: {pattern.Key}");
+                _logger.LogWarning("Blocked content pattern detected. IP: {IP}, Pattern: {Pattern}", _ip, pattern.Key);
             }
         }
 

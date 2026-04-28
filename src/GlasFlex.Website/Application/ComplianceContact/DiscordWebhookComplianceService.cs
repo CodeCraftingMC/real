@@ -10,11 +10,13 @@ public class DiscordWebhookComplianceService : IComplianceService
 {
     private readonly HttpClient _client;
     private readonly DiscordComplianceContactOptions _options;
+    private readonly ILogger<DiscordWebhookComplianceService> _logger;
 
-    public DiscordWebhookComplianceService(HttpClient client, IOptions<DiscordComplianceContactOptions> options)
+    public DiscordWebhookComplianceService(HttpClient client, IOptions<DiscordComplianceContactOptions> options, ILogger<DiscordWebhookComplianceService> logger)
     {
         _client = client;
         _options = options.Value;
+        _logger = logger;
     }
 
     public async Task<bool> SendComplianceNotificationAsync(ComplianceFormInput input)
@@ -41,12 +43,14 @@ public class DiscordWebhookComplianceService : IComplianceService
 
         try
         {
+            _logger.LogInformation("Sending compliance notification to Discord for email: {Email}", input.Email);
             var response = await _client.PostAsJsonAsync(_options.WebhookUrl, payload);
             response.EnsureSuccessStatusCode();
             return true;
         }
-        catch
+        catch(Exception ex)
         {
+            _logger.LogError(ex, "Failed to send compliance notification to Discord for email: {Email}", input.Email);
             return false;
         } 
     }
