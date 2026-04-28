@@ -19,7 +19,6 @@ public sealed class RateLimiter : IRateLimiter
 
     public async ValueTask<bool> IsLimitedAsync(string storeName, string key, int maxPoints)
     {
-        Console.WriteLine($"Checking rate limit for Store: {storeName}, Key: {key}, MaxPoints: {maxPoints}, current: {await _store.GetPointsAsync(storeName, key)}");
         return await _store.GetPointsAsync(storeName, key) >= maxPoints;
     }
 
