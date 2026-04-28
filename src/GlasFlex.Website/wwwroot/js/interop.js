@@ -9,3 +9,13 @@ window.enterFullscreen = () => {
         return el.webkitRequestFullscreen();
     }
 };
+
+window.moveToBody = (id) => {
+    const el = document.getElementById(id);
+
+    if(!el || el.parentElement === document.body){
+        return;
+    }
+
+    document.body.appendChild(el);
+};
