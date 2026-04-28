@@ -1,5 +1,16 @@
 @using GlasFlex.Website.Contract.ComplianceContact
+@using GlasFlex.Website.Domain.ComplianceContact
+@using GlasFlex.Website.Domain.Ratelimiter
+@using GlasFlex.Website.Option.ComplianceContact
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.RateLimiting
+@using Microsoft.Extensions.Options
+
+
+@inject IComplianceService ComplianceService
+@inject IRateLimiter RateLimiter
+@inject IOptions<ComplianceRateLimitOptions> ComplianceRateLimitOptions
+@inject IHttpContextAccessor HttpContextAccessor
 
 <div class="af-container af-glass">
     <h2>Compliance-Alarm</h2>
@@ -42,7 +53,13 @@
             <InputTextArea class="af-input" @bind-Value="FormInput!.Message" placeholder="When, where, what. Explain the incident." />
         </label>
 
+        <InputText class="af-input" @bind-Value="FormInput!.Subject" style="display:none" autocomplete="off" />
+        <InputText class="af-input" @bind-Value="FormInput!.ReplyTo" style="display:none" autocomplete="off" />
+        <InputText class="af-input" @bind-Value="FormInput!.UserAgent" style="display:none" autocomplete="off" />
+        <InputText class="af-input" @bind-Value="FormInput!.Referrer" style="display:none" autocomplete="off" />
+
         <ValidationSummary class="af-validation-summary" />
+        <p>@_message</p>
 
         <div>
             <button type="submit" class="af-button">Send</button>
@@ -55,18 +72,102 @@
     [SupplyParameterFromForm]
     private ComplianceFormInput? FormInput { get; set; }
 
+    private string _message = string.Empty;
+    private string? _userAgent;
+    private string _ip = "unknown";
+
+    private ComplianceRateLimitOptions RateLimitOptions => ComplianceRateLimitOptions.Value;
+
     protected override void OnInitialized()
     {
         FormInput = new ComplianceFormInput();
+        _userAgent = HttpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString();
+        _ip = HttpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString() ?? _ip;
     }
 
-    private void Submit()
+    private bool MatchRegex(string? input, string pattern)
     {
+        if (string.IsNullOrEmpty(input))
+            return false;
+
+        return System.Text.RegularExpressions.Regex.IsMatch(input, pattern);
+    }
+
+    private async Task Submit()
+    {
+        ComplianceFormInput? input = FormInput;
+        if(input is null)
+        {
+            _message = "Form input is invalid. Please fill out the form correctly.";
+            StateHasChanged();
+            return;
+        }
+
+        bool hasHoneypotFields = !string.IsNullOrEmpty(FormInput?.Subject) || !string.IsNullOrEmpty(FormInput?.ReplyTo) || !string.IsNullOrEmpty(FormInput?.UserAgent) || !string.IsNullOrEmpty(FormInput?.Referrer);
         
+        if(hasHoneypotFields)
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.HoneypotFilledPoints);
+            Console.WriteLine($"Honeypot fields filled. IP: {_ip}, User-Agent: {_userAgent}");
+        }
+
+        if(string.IsNullOrWhiteSpace(_userAgent))
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NoUserAgentPoints);
+            Console.WriteLine($"No User-Agent provided. IP: {_ip}");
+        }
+
+        if(MatchRegex(_userAgent, RateLimitOptions.BlockedUserAgentsRegex))
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.BlockedUserAgentPoints);
+            Console.WriteLine($"Blocked User-Agent detected. IP: {_ip}, User-Agent: {_userAgent}");
+        } 
+
+        foreach(var pattern in RateLimitOptions.BlockedRegexPoints)
+        {
+            if(MatchRegex(input.Name, pattern.Key)
+                || MatchRegex(input.Email, pattern.Key)
+                || MatchRegex(input.Message, pattern.Key))
+            {
+                await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, pattern.Value);
+                Console.WriteLine($"Blocked content pattern detected. IP: {_ip}, Pattern: {pattern.Key}");
+            }
+        }
+
+        bool isFakeAllow = await RateLimiter.IsLimitedAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.FakeSuccessPoints);
+        bool isRateLimited = await RateLimiter.IsLimitedAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.MaxPoints);
+
+        if(isFakeAllow)
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NormalRequestPoints);
+            ClearForm();
+            _message = "Thank you for your report! We will investigate the incident and contact you if we need more information.";
+            StateHasChanged();
+            return;
+        } 
+
+        if(!isRateLimited && await ComplianceService.SendComplianceNotificationAsync(input))
+        {
+            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NormalRequestPoints);
+            ClearForm();
+            _message = "Thank you for your report! We will investigate the incident and contact you if we need more information.";
+        }
+        else if(isRateLimited)
+        {
+            _message = "We have already received your report. Please wait while we investigate the incident. If we need more information, we will contact you per E-Mail.";
+        }
+        else
+        {
+            _message = "Failed to send your report. Please try again later.";
+        }
+
+        StateHasChanged();
     }
 
     private void ClearForm()
     {
         FormInput = new ComplianceFormInput();
+        _message = string.Empty;
+        StateHasChanged();
     }
 }
