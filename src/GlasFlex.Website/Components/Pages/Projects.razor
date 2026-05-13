@@ -13,36 +13,50 @@
         <hr class="af-hr" />
     </div>
     <div class="project-gallery">
-        <div class="af-container af-flex af-flex-col af-gap-m af-space-between" id="calcflex-calculator">
-            <div>
-                <h2>CalcFlex Calculator</h2>
-                <p>A truly flexible calculator that can't really do anything other than calculating...</p>
+        @foreach (ProjectCard project in _projects)
+        {
+            <div class="af-container af-flex af-flex-col af-gap-m af-space-between">
+                <div>
+                    <h2>@project.Title</h2>
+                    <p>@project.Content</p>
+                </div>
+                <img src="@Assets[project.Icon]" alt="Screenshot of @project.Title" class="af-mt-m af-br-s af-shadow-1" />
+                <div class="af-mb-m">
+                    <NavLink class="af-button" href="@project.Link" target="_blank">Visit</NavLink>
+                </div>
             </div>
-            <img src="@Assets["img/project/calcflex.png"]" alt="Screenshot of the CalcFlex Calculator" class="af-mt-m af-br-s" />
-            <div class="af-mb-m">
-                <NavLink class="af-button" href="https://calcflex.glas-flex.ch" target="_blank">Visit</NavLink>
-            </div>
-        </div>
-        <div class="af-container af-flex af-flex-col af-gap-m af-space-between" id="glasflex-android">
-            <div>
-                <h2>GlasFlex Android</h2>
-                <p>Some random website without really any meaning... <b>CHECK. IT. OUT.</b> (no pressure)</p>
-                <small>There is also a small game there :P</small>
-            </div>
-            <img src="@Assets["img/project/glasflex-android.png"]" alt="Screenshot of the GlasFlex Android site" class="af-mt-m af-br-s" />
-            <div class="af-mb-m">
-                <NavLink class="af-button" href="https://android.glas-flex.ch" target="_blank">Visit</NavLink>
-            </div>
-        </div>
-        <div class="af-container af-flex af-flex-col af-gap-m af-space-between" id="glasflex-case">
-            <div>
-                <h2>GlasFlex Case</h2>
-                <p>We know that you are a gambling addict. You can't get any money from this though.</p>
-            </div>
-            <img src="@Assets["img/project/glasflex-case.png"]" alt="Screenshot of the GlasFlex Case site" class="af-mt-m af-br-s" />
-            <div class="af-mb-m">
-                <NavLink class="af-button" href="https://case.glas-flex.ch" target="_blank">Visit</NavLink>
-            </div>
-        </div>
+        }
     </div>
 </div>
+
+@code {
+    private readonly List<ProjectCard> _projects = new()
+    {
+        new ProjectCard("CalcFlex Calculator",
+            "A truly flexible calculator that can't really do anything other than calculating...",
+            "img/project/calcflex.png",
+            "https://calcflex.glas-flex.ch"),
+        new ProjectCard("GlasFlex Android",
+            "Some random website without really any meaning... CHECK. IT. OUT. (no pressure)",
+            "img/project/glasflex-android.png",
+            "https://android.glas-flex.ch"),
+        new ProjectCard("GlasFlex Case",
+            "We know that you are a gambling addict. You can't get any money from this though.",
+            "img/project/glasflex-case.png",
+            "https://case.glas-flex.ch"),
+        new ProjectCard("GlasFlex OS",
+            "A flexible operating system based on Linux (currently in development and unusable). Is it really better than Arch? I don't know, I use OpenSUSE btw.",
+            "img/project/gxos.png",
+            "https://git.zenn.sh/glasflex/gxos"),
+        new ProjectCard("Flex Config Language",
+            "A configuration language that isn't just as if someone ripped out a part of JavaScript (looking at you, JSON)",
+            "img/project/fxcl.png",
+            "https://git.zenn.sh/glasflex/flex-config-language"),
+        new ProjectCard("GlasPack",
+            "A binary asset pack format for storing app assets in a namespace:type/asset format. You shouldn't use this unless you want to s u f f e r.",
+            "img/project/glaspack.png",
+            "https://git.zenn.sh/glasflex/glas-pack"),
+    };
+
+    private record ProjectCard(string Title, string Content, string Icon, string Link);
+}
