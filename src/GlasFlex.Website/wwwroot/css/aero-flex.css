@@ -51,6 +51,7 @@
 .af-card-title {
     font-size: 1.25rem;
     margin: var(--sp-s);
+    text-align: center;
 }
 
 .af-card-content {
