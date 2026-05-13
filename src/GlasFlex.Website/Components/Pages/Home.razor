@@ -49,7 +49,7 @@
                     <div class="af-flex af-flex-1 af-gap-m af-justify-flex-end af-mb-m">
                         @foreach(var link in member.Links)
                         {
-                            <a class="af-button" href="@link.Value" target="_blank">@link.Key</a>
+                            <a href="@link.Value" target="_blank"><img src=@_icons[link.Key] height="30" alt="@link.Key" /></a>
                         }
                     </div>
                 </div>
@@ -119,6 +119,12 @@
         new Card("X", "Xpress Support", "Report glitches through GitHub discussion or the compliance alarm. They will (maybe) get fixed.")
     };
 
+    private readonly Dictionary<string, string> _icons = new()
+    {
+        { "GitHub", "img/icon/github.png" },
+        { "GitLab", "img/icon/gitlab.png" }
+    };
+
     private readonly TeamMember[] _teamMembers = new[]
     {
         new TeamMember("Zenn (aka. Lorin), Professional Idiot", "https://git.zenn.sh/uploads/-/system/user/avatar/1/avatar.png?width=48",
@@ -130,11 +136,13 @@
         new TeamMember("Filip, Train Enthusiast", "https://avatars.githubusercontent.com/u/226062935?v=4",
             new()
             {
+                { "GitLab", "https://git.zenn.sh/kanye" },
                 { "GitHub", "https://github.com/ny-filip-k" }
             }),
         new TeamMember("digi00 (aka. Diego), Java Expert", "https://avatars.githubusercontent.com/u/225875697?v=4",
             new()
             {
+                { "GitLab", "https://git.zenn.sh/digi00" },
                 { "GitHub", "https://github.com/ny-Diego-J" }
             }),
         new TeamMember("Tim, GD Addict", "https://avatars.githubusercontent.com/u/225876594?v=4",
@@ -145,6 +153,7 @@
         new TeamMember("fiban (aka. Fabian), Java Hater", "https://avatars.githubusercontent.com/u/225875854?v=4",
             new()
             {
+                { "GitLab", "https://git.zenn.sh/fiban123" },
                 { "GitHub", "https://github.com/fiban123" }
             }),
         new TeamMember(Name: "Noe Eberli, Software Engineer Apprentice", "https://avatars.githubusercontent.com/u/225876496?v=4",
