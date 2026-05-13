@@ -13,6 +13,10 @@
     margin: var(--sp-m);
 }
 
+.af-shadow-1 {
+    box-shadow: var(--shadow-1);
+}
+
 .af-card {
     border-radius: var(--br-s);
     padding: 0;
