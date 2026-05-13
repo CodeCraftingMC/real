@@ -63,8 +63,8 @@
         <p>@_message</p>
 
         <div>
-            <button type="submit" class="af-button">Send</button>
-            <button type="button" class="af-button" @onclick="ClearForm">Clear</button>
+            <button type="submit" class="af-button" disabled="@_isSubmitting">@(_isSubmitting ? "Sending..." : "Send")</button>
+            <button type="button" class="af-button" @onclick="ClearForm" disabled="@_isSubmitting">Clear</button>
         </div>
     </EditForm>
 </div>
@@ -79,6 +79,7 @@
     private string _message = string.Empty;
     private string? _userAgent;
     private string _ip = "unknown";
+    private bool _isSubmitting = false;
 
     private ComplianceRateLimitOptions RateLimitOptions => ComplianceRateLimitOptions.Value;
 
@@ -99,70 +100,86 @@
 
     private async Task Submit()
     {
-        ComplianceFormInput? input = FormInput;
-        if(input is null)
-        {
-            _message = "Form input is invalid. Please fill out the form correctly.";
-            StateHasChanged();
-            return;
-        }
+        if(_isSubmitting) return;
 
-        bool hasHoneypotFields = !string.IsNullOrEmpty(FormInput?.Subject) || !string.IsNullOrEmpty(FormInput?.ReplyTo) || !string.IsNullOrEmpty(FormInput?.UserAgent) || !string.IsNullOrEmpty(FormInput?.Referrer);
-        
-        if(hasHoneypotFields)
+        _isSubmitting = true;
+        StateHasChanged();
+        try
         {
-            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.HoneypotFilledPoints);
-            _logger.LogWarning("Honeypot fields filled. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
-        }
-
-        if(string.IsNullOrWhiteSpace(_userAgent))
-        {
-            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NoUserAgentPoints);
-            _logger.LogWarning("No User-Agent provided. IP: {IP}", _ip);
-        }
-
-        if(MatchRegex(_userAgent, RateLimitOptions.BlockedUserAgentsRegex))
-        {
-            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.BlockedUserAgentPoints);
-            _logger.LogWarning("Blocked User-Agent detected. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
-        } 
-
-        foreach(var pattern in RateLimitOptions.BlockedRegexPoints)
-        {
-            if(MatchRegex(input.Name, pattern.Key)
-                || MatchRegex(input.Email, pattern.Key)
-                || MatchRegex(input.Message, pattern.Key))
+            ComplianceFormInput? input = FormInput;
+            if(input is null)
             {
-                await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, pattern.Value);
-                _logger.LogWarning("Blocked content pattern detected. IP: {IP}, Pattern: {Pattern}", _ip, pattern.Key);
+                _message = "Form input is invalid. Please fill out the form correctly.";
+                StateHasChanged();
+                return;
+            }
+
+            bool hasHoneypotFields = !string.IsNullOrEmpty(FormInput?.Subject) || !string.IsNullOrEmpty(FormInput?.ReplyTo) || !string.IsNullOrEmpty(FormInput?.UserAgent) || !string.IsNullOrEmpty(FormInput?.Referrer);
+            
+            if(hasHoneypotFields)
+            {
+                await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.HoneypotFilledPoints);
+                _logger.LogWarning("Honeypot fields filled. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
+            }
+
+            if(string.IsNullOrWhiteSpace(_userAgent))
+            {
+                await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NoUserAgentPoints);
+                _logger.LogWarning("No User-Agent provided. IP: {IP}", _ip);
+            }
+
+            if(MatchRegex(_userAgent, RateLimitOptions.BlockedUserAgentsRegex))
+            {
+                await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.BlockedUserAgentPoints);
+                _logger.LogWarning("Blocked User-Agent detected. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
+            } 
+
+            foreach(var pattern in RateLimitOptions.BlockedRegexPoints)
+            {
+                if(MatchRegex(input.Name, pattern.Key)
+                    || MatchRegex(input.Email, pattern.Key)
+                    || MatchRegex(input.Message, pattern.Key))
+                {
+                    await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, pattern.Value);
+                    _logger.LogWarning("Blocked content pattern detected. IP: {IP}, Pattern: {Pattern}", _ip, pattern.Key);
+                }
+            }
+
+            bool isFakeAllow = await RateLimiter.IsLimitedAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.FakeSuccessPoints);
+            bool isRateLimited = await RateLimiter.IsLimitedAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.MaxPoints);
+
+            if(isFakeAllow)
+            {
+                await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NormalRequestPoints);
+                ClearForm();
+                _message = "Thank you for your report! We will investigate the incident and contact you if we need more information.";
+                StateHasChanged();
+                return;
+            } 
+
+            if(!isRateLimited && await ComplianceService.SendComplianceNotificationAsync(_ip, _userAgent ?? "Unknown", input))
+            {
+                await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NormalRequestPoints);
+                ClearForm();
+                _message = "Thank you for your report! We will investigate the incident and contact you if we need more information.";
+            }
+            else if(isRateLimited)
+            {
+                _message = "We have already received your report. Please wait while we investigate the incident. If we need more information, we will contact you per E-Mail.";
+            }
+            else
+            {
+                _message = "Failed to send your report. Please try again later.";
             }
         }
-
-        bool isFakeAllow = await RateLimiter.IsLimitedAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.FakeSuccessPoints);
-        bool isRateLimited = await RateLimiter.IsLimitedAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.MaxPoints);
-
-        if(isFakeAllow)
+        catch(Exception ex)
         {
-            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NormalRequestPoints);
-            ClearForm();
-            _message = "Thank you for your report! We will investigate the incident and contact you if we need more information.";
-            StateHasChanged();
-            return;
-        } 
-
-        if(!isRateLimited && await ComplianceService.SendComplianceNotificationAsync(input))
-        {
-            await RateLimiter.AddAsync(RateLimitOptions.RatelimitStoreName, _ip, RateLimitOptions.NormalRequestPoints);
-            ClearForm();
-            _message = "Thank you for your report! We will investigate the incident and contact you if we need more information.";
+            _logger.LogError(ex, "Error while submitting compliance form. IP: {IP}, User-Agent: {UserAgent}", _ip, _userAgent);
+            _message = "An error occurred while submitting your report. Please try again later.";
         }
-        else if(isRateLimited)
+        finally
         {
-            _message = "We have already received your report. Please wait while we investigate the incident. If we need more information, we will contact you per E-Mail.";
-        }
-        else
-        {
-            _message = "Failed to send your report. Please try again later.";
+            _isSubmitting = false;
         }
 
         StateHasChanged();

@@ -4,5 +4,5 @@ namespace GlasFlex.Website.Domain.ComplianceContact;
 
 public interface IComplianceService
 {
-    Task<bool> SendComplianceNotificationAsync(ComplianceFormInput input);
+    Task<bool> SendComplianceNotificationAsync(string ip, string userAgent, ComplianceFormInput input);
 }

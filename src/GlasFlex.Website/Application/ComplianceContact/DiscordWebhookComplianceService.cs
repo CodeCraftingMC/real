@@ -19,7 +19,7 @@ public class DiscordWebhookComplianceService : IComplianceService
         _logger = logger;
     }
 
-    public async Task<bool> SendComplianceNotificationAsync(ComplianceFormInput input)
+    public async Task<bool> SendComplianceNotificationAsync(string ip, string userAgent, ComplianceFormInput input)
     {
         var payload = new
         {
@@ -32,9 +32,11 @@ public class DiscordWebhookComplianceService : IComplianceService
                     color = 4032511,
                     fields = new[]
                     {
-                        new { name = "E-Mail:", value = input.Email },
-                        new { name = "Name:", value = input.Name },
-                        new { name = "Message:", value = input.Message }
+                        new { name = "IP Address:", value = ip, inline = true },
+                        new { name = "User Agent:", value = userAgent, inline = true },
+                        new { name = "E-Mail:", value = input.Email, inline = false },
+                        new { name = "Name:", value = input.Name, inline = false },
+                        new { name = "Message:", value = input.Message, inline = false }
                     }
                 }
             },
