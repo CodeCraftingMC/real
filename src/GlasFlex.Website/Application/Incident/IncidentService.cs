@@ -12,9 +12,12 @@ public class IncidentService : IIncidentService
     {
         _latestIncident = new IncidentDescription()
         {
-            Severity = IncidentSeverityLevel.Unknown,
+            Severity = IncidentSeverityLevel.High,
             Date = new DateTime(2026, 4, 23),
-            Message = "I (the developer) have no idea what happened on this day, I'm just rewriting this code to make it even more unnecessary than it already is."
+            Message = "Some criminal person left the dirty dishes in the sink again and now the dishwasher is banned.",
+            IncidentResolveMessage = "Days until dishwasher returns:",
+            IncidentHasResolvedMessage = "The dishwasher has returned.",
+            DaysUntilResolved = 5,
         };
     }
 
