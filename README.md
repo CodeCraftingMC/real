@@ -8,5 +8,4 @@ Starting now, new commits will not be transferred over to gitlab. A guide on how
 
 # real
 
-
 Gemaakt door de almachtige glas-flex.ch© in 2025-2026

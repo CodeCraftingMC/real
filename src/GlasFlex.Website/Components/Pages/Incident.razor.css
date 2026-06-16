@@ -1,0 +1,7 @@
+.incident-content {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}

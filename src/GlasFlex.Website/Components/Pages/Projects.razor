@@ -1,0 +1,66 @@
+﻿@page "/projects"
+@inject IJSRuntime JS
+@using GlasFlex.Website.Application.ComplianceContact
+
+<PageTitle>Glas-Flex | Projects</PageTitle>
+
+<div>
+    <div class="af-p-m">
+        <h1>Projects</h1>
+        <p>
+            These are some of our <i>amazing</i> projects. Take a look around, maybe you <i>will</i> find something useful for you. Or maybe you just want to see some of our <b>"brilliant"</b> code, we don't mind.
+        </p>
+        <hr class="af-hr" />
+    </div>
+    <div class="project-gallery">
+        @foreach (ProjectCard project in _projects)
+        {
+            <div class="af-container af-flex af-flex-col af-gap-m af-space-between">
+                <div>
+                    <h2>@project.Title</h2>
+                    <p>@project.Content</p>
+                </div>
+                <img src="@Assets[project.Icon]" alt="Screenshot of @project.Title" class="af-mt-m af-br-s af-shadow-1" />
+                <div class="af-mb-m">
+                    <NavLink class="af-button" href="@project.Link" target="_blank">Visit</NavLink>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private readonly List<ProjectCard> _projects = new()
+    {
+        new ProjectCard("CalcFlex Calculator",
+            "A truly flexible calculator that can't really do anything other than calculating...",
+            "img/project/calcflex.png",
+            "https://calcflex.glas-flex.ch"),
+        new ProjectCard("GlasFlex Android",
+            "Some random website without really any meaning... CHECK. IT. OUT. (no pressure)",
+            "img/project/glasflex-android.png",
+            "https://android.glas-flex.ch"),
+        new ProjectCard("GlasFlex Case",
+            "We know that you are a gambling addict. You can't get any money from this though.",
+            "img/project/glasflex-case.png",
+            "https://case.glas-flex.ch"),
+        new ProjectCard("GlasFlex OS",
+            "A flexible operating system based on Linux (currently in development and unusable). Is it really better than Arch? I don't know, I use OpenSUSE btw.",
+            "img/project/gxos.png",
+            "https://git.zenn.sh/glasflex/gxos"),
+        new ProjectCard("Flex Config Language",
+            "A configuration language that isn't just as if someone ripped out a part of JavaScript (looking at you, JSON)",
+            "img/project/fxcl.png",
+            "https://git.zenn.sh/glasflex/flex-config-language"),
+        new ProjectCard("GlasPack",
+            "A binary asset pack format for storing app assets in a namespace:type/asset format. You shouldn't use this unless you want to s u f f e r.",
+            "img/project/glaspack.png",
+            "https://git.zenn.sh/glasflex/glas-pack"),
+        new ProjectCard("GlasFlex Website",
+            "The website you are currently on. It's open source, so if you want to see how this abomination was made, feel free to check it out.",
+            "img/project/website.png",
+            "https://github.com/CodeCraftingMC/real")
+    };
+
+    private record ProjectCard(string Title, string Content, string Icon, string Link);
+}

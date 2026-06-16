@@ -1,0 +1,62 @@
+@page "/incident"
+@using GlasFlex.Website.Contract.Incident
+@using GlasFlex.Website.Domain.Incident
+@inject IJSRuntime JS
+@inject IIncidentService IncidentService
+
+<PageTitle>Glas-Flex | Incident Report</PageTitle>
+
+<div>
+    <div class="af-p-m">
+        <h1>Incident Report</h1>
+        <p>
+            Did something bad happen? Here you can find some information (or not)
+        </p>
+        <hr class="af-hr" />
+    </div>
+    <div class="incident-content">
+        @if(_description is null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            <h1 class="af-m-s">Days since last incident:</h1>
+            <p class="af-m-s" style="color: orange; font-size: 5em; font-weight: bolder;">@_daysSinceLastIncident</p>
+            @if(_daysUntilResolved > 0)
+            {
+                <p class="af-m-s"><b>@_description.IncidentResolveMessage</b> <span style="color: orange; font-weight: bolder;">@_daysUntilResolved</span></p>
+            }
+            else
+            {
+                <p class="af-m-s"><b>@_description.IncidentHasResolvedMessage</b></p>
+            }
+            <hr class="af-hr" />
+            <p class="af-m-s"><b>Severity:</b> @_description.Severity</p>
+            <hr class="af-hr" />
+            <p class="af-m-s">
+                @if(!string.IsNullOrEmpty(_description.Message))
+                {
+                    <span><b>Details:</b> @_description.Message</span>
+                }
+                else
+                {
+                    <span>No details available.</span>
+                }
+            </p>
+        }
+    </div>
+</div>
+
+@code {
+    private int _daysSinceLastIncident = 0;
+    private int _daysUntilResolved = 0;
+    private IncidentDescription? _description = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _daysSinceLastIncident = await IncidentService.GetDaysSinceLatestIncidentAsync();
+        _description = await IncidentService.GetLatestIncidentAsync();
+        _daysUntilResolved = _description.DaysUntilResolved - _daysSinceLastIncident;
+    }
+}
